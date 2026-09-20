@@ -8,13 +8,14 @@ import { createClient } from "@/lib/supabase/client";
 import { Charity } from "@/lib/supabase/types";
 import { Heart, Loader2, Award, CheckCircle2, ShieldCheck } from "lucide-react";
 import { signupSchema } from "@/lib/zod-schemas";
+import { DEFAULT_CHARITIES } from "@/lib/constants";
 
 export default function SignupPage() {
-  const [charities, setCharities] = useState<Charity[]>([]);
+  const [charities, setCharities] = useState<Charity[]>(DEFAULT_CHARITIES);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [selectedCharityId, setSelectedCharityId] = useState("");
+  const [selectedCharityId, setSelectedCharityId] = useState(DEFAULT_CHARITIES[0]?.id || "");
   const [charityPercentage, setCharityPercentage] = useState(15); // min 10%
   const [plan, setPlan] = useState<"monthly" | "yearly">("monthly");
   const [loading, setLoading] = useState(false);
@@ -23,10 +24,14 @@ export default function SignupPage() {
   useEffect(() => {
     const supabase = createClient();
     async function loadCharities() {
-      const { data } = await supabase.from("charities").select("*").eq("is_active", true);
-      if (data && data.length > 0) {
-        setCharities(data);
-        setSelectedCharityId(data[0].id);
+      try {
+        const { data } = await supabase.from("charities").select("*").eq("is_active", true);
+        if (data && data.length > 0) {
+          setCharities(data);
+          setSelectedCharityId(data[0].id);
+        }
+      } catch (_err) {
+        // Keep default charities fallback
       }
     }
     loadCharities();

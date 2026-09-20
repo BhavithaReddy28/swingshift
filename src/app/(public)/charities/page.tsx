@@ -3,6 +3,8 @@ import { Footer } from "@/components/navigation/Footer";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { CharityDirectoryClient } from "./CharityDirectoryClient";
 
+import { DEFAULT_CHARITIES } from "@/lib/constants";
+
 export const revalidate = 60;
 
 async function getCharities() {
@@ -13,7 +15,10 @@ async function getCharities() {
     .eq("is_active", true)
     .order("is_featured", { ascending: false });
 
-  return charities || [];
+  if (!charities || charities.length === 0) {
+    return DEFAULT_CHARITIES;
+  }
+  return charities;
 }
 
 export default async function CharitiesPage() {

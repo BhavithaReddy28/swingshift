@@ -6,16 +6,22 @@ import { Calendar, MapPin, ShieldCheck } from "lucide-react";
 import { DirectDonationModal } from "@/components/shared/DirectDonationModal";
 import { formatDate } from "@/lib/utils";
 
+import { DEFAULT_CHARITIES } from "@/lib/constants";
+
 export const revalidate = 60;
 
 async function getCharityData(slug: string) {
   const supabaseAdmin = createAdminClient();
 
-  const { data: charity } = await supabaseAdmin
+  let { data: charity } = await supabaseAdmin
     .from("charities")
     .select("*")
     .eq("slug", slug)
-    .single();
+    .maybeSingle();
+
+  if (!charity) {
+    charity = DEFAULT_CHARITIES.find((c) => c.slug === slug) || null;
+  }
 
   if (!charity) return null;
 
