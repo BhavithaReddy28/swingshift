@@ -10,59 +10,71 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0B0F17",
-        foreground: "#F3F4F6",
+        background: "var(--bg-base)",
+        foreground: "var(--text-primary)",
+        ink: {
+          base: "#0A0E1C",
+          elevated: "#131A2E",
+          card: "#1B2440",
+        },
+        vermillion: {
+          DEFAULT: "#FF5A36",
+          glow: "#FF8A65",
+          dark: "#7A2E3D",
+        },
+        chartreuse: {
+          DEFAULT: "#C4F135",
+          glow: "#DFFF7A",
+          dark: "#7FA818",
+        },
+        periwinkle: {
+          DEFAULT: "#8EA9FF",
+          muted: "#7B85A6",
+        },
         card: {
-          DEFAULT: "rgba(17, 24, 39, 0.7)",
-          foreground: "#F9FAFB",
-          border: "rgba(255, 255, 255, 0.08)",
+          DEFAULT: "#1B2440",
+          foreground: "#F4F1EA",
+          border: "rgba(123, 133, 166, 0.15)",
         },
         primary: {
-          DEFAULT: "#F97316", // Warm amber/terracotta accent
-          hover: "#EA580C",
+          DEFAULT: "#FF5A36",
+          hover: "#E04826",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#14B8A6", // Cool teal support accent
-          hover: "#0D9488",
-          foreground: "#FFFFFF",
+          DEFAULT: "#C4F135",
+          hover: "#B3E024",
+          foreground: "#0A0E1C",
         },
-        dark: {
-          100: "#1F2937",
-          200: "#111827",
-          300: "#0B0F17",
-          400: "#070A10",
+        support: {
+          DEFAULT: "#8EA9FF",
+          foreground: "#0A0E1C",
         },
-        gold: {
-          DEFAULT: "#F59E0B",
-          glow: "rgba(245, 158, 11, 0.3)",
-        }
       },
       fontFamily: {
         sans: ["var(--font-inter)", "sans-serif"],
         display: ["var(--font-outfit)", "sans-serif"],
       },
       boxShadow: {
-        glow: "0 0 25px -5px rgba(249, 115, 22, 0.3)",
-        "glow-teal": "0 0 25px -5px rgba(20, 184, 166, 0.3)",
-        glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
-      },
-      backdropBlur: {
-        glass: "12px",
+        glow: "0 0 35px -5px rgba(255, 90, 54, 0.45)",
+        "glow-chartreuse": "0 0 35px -5px rgba(196, 241, 53, 0.55)",
+        "glow-periwinkle": "0 0 35px -5px rgba(142, 169, 255, 0.35)",
+        glass: "0 12px 32px 0 rgba(0, 0, 0, 0.45)",
       },
       keyframes: {
-        "pulse-glow": {
-          "0%, 100%": { opacity: "1", transform: "scale(1)" },
-          "50%": { opacity: "0.85", transform: "scale(1.02)" },
+        "reel-spin": {
+          "0%": { transform: "translateY(0%)" },
+          "100%": { transform: "translateY(-90%)" },
         },
-        "ball-flip": {
-          "0%": { transform: "rotateX(90deg)", opacity: "0" },
-          "100%": { transform: "rotateX(0deg)", opacity: "1" },
-        }
+        "ball-bounce": {
+          "0%": { transform: "scale(0)", opacity: "0" },
+          "70%": { transform: "scale(1.18)", opacity: "1" },
+          "100%": { transform: "scale(1)" },
+        },
       },
       animation: {
-        "pulse-glow": "pulse-glow 3s infinite ease-in-out",
-        "ball-flip": "ball-flip 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
+        "reel-spin": "reel-spin 0.8s ease-in-out infinite",
+        "ball-bounce": "ball-bounce 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards",
       },
     },
   },

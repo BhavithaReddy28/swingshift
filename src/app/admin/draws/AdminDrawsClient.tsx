@@ -189,13 +189,22 @@ export function AdminDrawsClient({ initialDraws }: { initialDraws: Draw[] }) {
                   <span className="text-xs text-gray-400">Mode: <strong className="text-white uppercase">{draw.mode}</strong></span>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
+                  <a
+                    href={`/results/${draw.id}/reveal`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3.5 py-2 rounded-xl bg-[#C4F135]/20 text-[#C4F135] hover:bg-[#C4F135]/30 border border-[#C4F135]/40 text-xs font-bold flex items-center gap-1.5 transition-all"
+                  >
+                    <Sparkles className="w-3.5 h-3.5" /> Preview Live Reveal
+                  </a>
+
                   {!isPublished ? (
                     <>
                       <button
                         onClick={() => handleSimulate(draw.id)}
                         disabled={simLoading}
-                        className="px-4 py-2.5 rounded-xl bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40 text-xs font-semibold flex items-center gap-1.5 transition-all"
+                        className="px-4 py-2 text-xs rounded-xl bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-500/40 font-semibold flex items-center gap-1.5 transition-all"
                       >
                         {simLoading && isSimulating ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -207,7 +216,7 @@ export function AdminDrawsClient({ initialDraws }: { initialDraws: Draw[] }) {
                       <button
                         onClick={() => handlePublish(draw.id)}
                         disabled={publishLoading}
-                        className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-lg text-xs font-bold flex items-center gap-1.5 hover:from-orange-600 hover:to-amber-700 transition-all"
+                        className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#FF5A36] to-amber-600 text-white shadow-lg text-xs font-bold flex items-center gap-1.5 hover:from-[#FF5A36]/90 hover:to-amber-700 transition-all"
                       >
                         {publishLoading ? (
                           <Loader2 className="w-4 h-4 animate-spin" />

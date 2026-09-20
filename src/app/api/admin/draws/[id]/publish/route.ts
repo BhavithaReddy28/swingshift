@@ -9,7 +9,7 @@ import {
 } from "@/lib/draw-engine";
 
 export async function POST(
-  req: NextRequest,
+  _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {

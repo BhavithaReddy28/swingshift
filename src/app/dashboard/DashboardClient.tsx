@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Profile, Charity, Score, Subscription, Winner } from "@/lib/supabase/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
+import { FlipCountdown } from "@/components/ui/FlipCountdown";
 import {
   Trophy,
   Heart,
@@ -46,6 +47,7 @@ export function DashboardClient({
   const [scoreError, setScoreError] = useState<string | null>(null);
   const [scoreNote, setScoreNote] = useState<string | null>(null);
   const [scoreLoading, setScoreLoading] = useState(false);
+  const [bestScorePulsing, setBestScorePulsing] = useState(false);
 
   // Lucky Numbers state
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>(
@@ -72,6 +74,7 @@ export function DashboardClient({
   const [uploadLoading, setUploadLoading] = useState(false);
 
   const isActiveSubscriber = subscription?.status === "active";
+  const maxScoreInHistory = scores.length > 0 ? Math.max(...scores.map((s) => s.score)) : 0;
 
   const handleAddScore = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,6 +86,11 @@ export function DashboardClient({
       const numScore = Number(scoreVal);
       if (numScore < 1 || numScore > 45) {
         throw new Error("Score must be between 1 and 45.");
+      }
+
+      if (numScore > maxScoreInHistory) {
+        setBestScorePulsing(true);
+        setTimeout(() => setBestScorePulsing(false), 2500);
       }
 
       const res = await fetch("/api/scores", {
@@ -229,14 +237,14 @@ export function DashboardClient({
     <div className="space-y-8">
       {/* RESTRICTED ACCESS BANNER (IF LAPSED/INACTIVE) */}
       {!isActiveSubscriber && (
-        <div className="glass-panel-amber p-6 rounded-3xl border border-orange-500/40 space-y-4">
+        <div className="glass-panel-vermillion p-6 rounded-3xl border border-vermillion/40 space-y-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-vermillion/20 text-vermillion flex items-center justify-center shrink-0">
               <Lock className="w-5 h-5" />
             </div>
             <div>
               <h3 className="font-display font-bold text-lg text-white">Subscription Lapsed / Inactive</h3>
-              <p className="text-xs text-gray-300">
+              <p className="text-xs text-periwinkle-muted">
                 Score entry, lucky number selection, and monthly draw participation are restricted for non-active subscribers. Re-subscribe to reactivate your draw entry!
               </p>
             </div>
@@ -255,25 +263,25 @@ export function DashboardClient({
               const d = await res.json();
               if (d.url) window.location.href = d.url;
             }}
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 font-semibold text-sm text-white shadow-lg hover:from-orange-600 hover:to-amber-700 transition-all"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-vermillion to-amber-600 font-semibold text-sm text-white shadow-lg transition-all"
           >
             Re-Subscribe Now (£20/mo)
           </button>
         </div>
       )}
 
-      {/* TOP ROW: SUBSCRIPTION CARD & NEXT DRAW COUNTDOWN */}
+      {/* TOP ROW: SUBSCRIPTION CARD & FLIP-TILE COUNTDOWN WIDGET */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Subscription Status Card */}
         <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-4 lg:col-span-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-vermillion/10 text-vermillion flex items-center justify-center">
                 <Award className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-display font-bold text-white text-lg">Subscription Overview</h3>
-                <span className="text-xs text-gray-400 capitalize">
+                <span className="text-xs text-periwinkle-muted capitalize">
                   {subscription?.plan || "Monthly"} Plan
                 </span>
               </div>
@@ -282,8 +290,8 @@ export function DashboardClient({
             <span
               className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                 isActiveSubscriber
-                  ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
-                  : "bg-red-500/20 text-red-300 border border-red-500/40"
+                  ? "bg-chartreuse/20 text-chartreuse border border-chartreuse/40"
+                  : "bg-vermillion/20 text-vermillion border border-vermillion/40"
               }`}
             >
               {subscription?.status || "Lapsed"}
@@ -292,19 +300,19 @@ export function DashboardClient({
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-2 border-t border-white/5 text-sm">
             <div>
-              <span className="text-gray-400 text-xs block">Period Start</span>
+              <span className="text-periwinkle-muted text-xs block">Period Start</span>
               <span className="font-semibold text-white">
                 {subscription?.current_period_start ? formatDate(subscription.current_period_start) : "N/A"}
               </span>
             </div>
             <div>
-              <span className="text-gray-400 text-xs block">Renewal / Expiry Date</span>
+              <span className="text-periwinkle-muted text-xs block">Renewal / Expiry Date</span>
               <span className="font-semibold text-white">
                 {subscription?.current_period_end ? formatDate(subscription.current_period_end) : "N/A"}
               </span>
             </div>
             <div>
-              <span className="text-gray-400 text-xs block">Auto-Renew Status</span>
+              <span className="text-periwinkle-muted text-xs block">Auto-Renew Status</span>
               <span className="font-semibold text-white">
                 {subscription?.cancel_at_period_end ? "Cancels at period end" : "Active Auto-Renew"}
               </span>
@@ -312,23 +320,22 @@ export function DashboardClient({
           </div>
         </div>
 
-        {/* Next Draw Countdown Card */}
-        <div className="glass-panel-amber p-6 rounded-3xl border border-orange-500/30 flex flex-col justify-between">
+        {/* Compact Flip-Tile Countdown Widget */}
+        <div className="glass-panel p-6 rounded-3xl border border-vermillion/30 flex flex-col justify-between glow-vermillion">
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-orange-400">Next Monthly Draw</span>
-              <Clock className="w-4 h-4 text-orange-400" />
+              <span className="text-xs font-bold uppercase tracking-wider text-vermillion">Next Draw In</span>
+              <Clock className="w-4 h-4 text-vermillion" />
             </div>
-            <div className="font-display font-extrabold text-2xl text-white">1st of Next Month</div>
-            <p className="text-xs text-gray-300 mt-1">
-              Your numbers & 5-score history are active for entry.
-            </p>
+            <div className="flex justify-center py-2">
+              <FlipCountdown size="sm" />
+            </div>
           </div>
 
-          <div className="pt-4 border-t border-orange-500/20 flex items-center justify-between text-xs text-orange-200">
-            <span>Entry Status:</span>
-            <span className="font-bold text-teal-300 flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Eligible
+          <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-periwinkle">
+            <span>Draw Status:</span>
+            <span className="font-bold text-chartreuse flex items-center gap-1">
+              <CheckCircle2 className="w-3.5 h-3.5" /> Entered & Active
             </span>
           </div>
         </div>
@@ -340,29 +347,29 @@ export function DashboardClient({
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-vermillion/10 text-vermillion flex items-center justify-center">
                 <Target className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-display font-bold text-xl text-white">Rolling 5 Score Tracker</h3>
-                <p className="text-xs text-gray-400">Score Range: 1–45 (Stableford)</p>
+                <p className="text-xs text-periwinkle-muted">Score Range: 1–45 (Stableford)</p>
               </div>
             </div>
-            <span className="text-xs bg-white/10 px-2.5 py-1 rounded-md text-gray-300 font-mono">
+            <span className="text-xs bg-white/10 px-2.5 py-1 rounded-md text-periwinkle font-mono">
               {scores.length}/5 Saved
             </span>
           </div>
 
           {scoreError && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs flex items-center gap-2">
+            <div className="p-3 rounded-xl bg-vermillion/10 border border-vermillion/30 text-vermillion text-xs flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 shrink-0" />
               {scoreError}
             </div>
           )}
 
           {scoreNote && (
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
-              <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
+            <div className="p-3 rounded-xl bg-chartreuse/10 border border-chartreuse/30 text-chartreuse text-xs flex items-center gap-2">
+              <Sparkles className="w-4 h-4 shrink-0 text-chartreuse" />
               {scoreNote}
             </div>
           )}
@@ -370,7 +377,7 @@ export function DashboardClient({
           {/* Add Score Form */}
           <form onSubmit={handleAddScore} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-semibold text-periwinkle-muted uppercase tracking-wider mb-1">
                 Score (1–45)
               </label>
               <input
@@ -380,13 +387,13 @@ export function DashboardClient({
                 disabled={!isActiveSubscriber || scoreLoading}
                 value={scoreVal}
                 onChange={(e) => setScoreVal(e.target.value === "" ? "" : Number(e.target.value))}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500 disabled:opacity-50"
+                className="w-full bg-[#131A2E] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-vermillion disabled:opacity-50"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold text-gray-400 uppercase tracking-wider mb-1">
+              <label className="block text-[11px] font-semibold text-periwinkle-muted uppercase tracking-wider mb-1">
                 Date Played
               </label>
               <input
@@ -394,7 +401,7 @@ export function DashboardClient({
                 disabled={!isActiveSubscriber || scoreLoading}
                 value={playedOnVal}
                 onChange={(e) => setPlayedOnVal(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-orange-500 disabled:opacity-50"
+                className="w-full bg-[#131A2E] border border-white/10 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-vermillion disabled:opacity-50"
                 required
               />
             </div>
@@ -403,7 +410,7 @@ export function DashboardClient({
               <button
                 type="submit"
                 disabled={!isActiveSubscriber || scoreLoading}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm hover:from-orange-600 hover:to-amber-700 transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-vermillion to-amber-600 text-white font-semibold text-sm hover:from-vermillion-glow transition-all flex items-center justify-center gap-1.5 shadow-md disabled:opacity-50"
               >
                 {scoreLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <><Plus className="w-4 h-4" /> Add Score</>}
               </button>
@@ -412,80 +419,92 @@ export function DashboardClient({
 
           {/* Scores Table */}
           <div className="space-y-2">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block">
+            <span className="text-xs font-semibold text-periwinkle-muted uppercase tracking-wider block">
               Retained Rolling Scores (Newest First)
             </span>
 
             {scores.length === 0 ? (
-              <div className="p-6 text-center text-gray-400 text-xs glass-panel rounded-2xl border border-white/5">
+              <div className="p-6 text-center text-periwinkle-muted text-xs glass-panel rounded-2xl border border-white/5">
                 No scores recorded yet. Add your first score above!
               </div>
             ) : (
               <div className="space-y-2">
-                {scores.map((s, idx) => (
-                  <div
-                    key={s.id}
-                    className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between hover:border-orange-500/30 transition-all"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 font-mono font-bold text-xs flex items-center justify-center">
-                        #{idx + 1}
-                      </div>
-                      <div>
-                        <span className="font-display font-bold text-white text-base">
-                          {s.score} Points
-                        </span>
-                        <span className="text-xs text-gray-400 block">{formatDate(s.played_on)}</span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => handleDeleteScore(s.id)}
-                      disabled={!isActiveSubscriber}
-                      className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-                      title="Delete Score"
+                {scores.map((s, idx) => {
+                  const isTopScore = s.score === maxScoreInHistory;
+                  return (
+                    <div
+                      key={s.id}
+                      className={`p-3.5 rounded-xl bg-white/5 border flex items-center justify-between transition-all ${
+                        isTopScore && bestScorePulsing
+                          ? "border-chartreuse glow-chartreuse animate-pulse"
+                          : "border-white/10"
+                      }`}
                     >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
+                      <div className="flex items-center gap-3">
+                        <div className="w-7 h-7 rounded-lg bg-vermillion/20 text-vermillion font-mono font-bold text-xs flex items-center justify-center">
+                          #{idx + 1}
+                        </div>
+                        <div>
+                          <span className="font-display font-bold text-white text-base">
+                            {s.score} Points
+                          </span>
+                          {isTopScore && (
+                            <span className="ml-2 text-[10px] bg-chartreuse/20 text-chartreuse font-bold px-2 py-0.5 rounded">
+                              Best Score
+                            </span>
+                          )}
+                          <span className="text-xs text-periwinkle-muted block">{formatDate(s.played_on)}</span>
+                        </div>
+                      </div>
+
+                      <button
+                        onClick={() => handleDeleteScore(s.id)}
+                        disabled={!isActiveSubscriber}
+                        className="p-2 text-periwinkle-muted hover:text-vermillion transition-colors"
+                        title="Delete Score"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
 
-        {/* 2. LUCKY NUMBERS PICKER */}
+        {/* 2. LUCKY NUMBERS PICKER WITH GLOWING CHARTREUSE RINGS */}
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-chartreuse/10 text-chartreuse flex items-center justify-center">
                 <Trophy className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-display font-bold text-xl text-white">Lucky Numbers Picker</h3>
-                <p className="text-xs text-gray-400">Pick 5 unique numbers (1–45)</p>
+                <h3 className="font-display font-bold text-xl text-white">Your Lucky Numbers</h3>
+                <p className="text-xs text-periwinkle-muted">5 unique numbers (1–45)</p>
               </div>
             </div>
 
             <button
               onClick={handleQuickPick}
               disabled={!isActiveSubscriber}
-              className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-amber-300 border border-amber-500/30 flex items-center gap-1.5 transition-all disabled:opacity-50"
+              className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-semibold text-chartreuse border border-chartreuse/30 flex items-center gap-1.5 transition-all disabled:opacity-50"
             >
               <Shuffle className="w-3.5 h-3.5" /> Quick Pick
             </button>
           </div>
 
-          {/* Selected Balls Badge Bar */}
-          <div className="p-4 rounded-2xl bg-black/40 border border-white/10 flex items-center justify-between">
-            <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+          {/* Selected Balls Badge Bar with Glowing Chartreuse Rings */}
+          <div className="p-4 rounded-2xl bg-[#131A2E] border border-white/10 flex items-center justify-between">
+            <span className="text-xs font-semibold text-periwinkle-muted uppercase tracking-wider">
               Selected:
             </span>
             <div className="flex gap-2">
               {selectedNumbers.sort((a, b) => a - b).map((num) => (
                 <div
                   key={num}
-                  className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 font-display font-bold text-white text-sm flex items-center justify-center shadow-md border border-amber-300/30"
+                  className="w-10 h-10 rounded-2xl bg-gradient-to-br from-chartreuse-glow via-chartreuse to-chartreuse-dark text-[#0A0E1C] font-display font-extrabold text-sm flex items-center justify-center shadow-lg border border-chartreuse glow-chartreuse"
                 >
                   {num}
                 </div>
@@ -504,8 +523,8 @@ export function DashboardClient({
                   disabled={!isActiveSubscriber}
                   className={`h-9 sm:h-10 rounded-xl font-display font-bold text-xs sm:text-sm transition-all flex items-center justify-center ${
                     isSelected
-                      ? "bg-gradient-to-br from-amber-500 to-orange-600 text-white shadow-lg scale-105 border border-amber-300"
-                      : "bg-white/5 text-gray-300 hover:bg-white/15"
+                      ? "bg-gradient-to-br from-chartreuse-glow via-chartreuse to-chartreuse-dark text-[#0A0E1C] shadow-lg scale-105 border border-chartreuse glow-chartreuse"
+                      : "bg-white/5 text-periwinkle-muted hover:bg-white/15"
                   } disabled:opacity-50`}
                 >
                   {num}
@@ -517,7 +536,7 @@ export function DashboardClient({
           <button
             onClick={handleSaveNumbers}
             disabled={!isActiveSubscriber || numbersLoading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
+            className="w-full py-3.5 rounded-xl bg-gradient-to-r from-vermillion to-amber-600 text-white font-semibold text-sm hover:from-vermillion-glow transition-all shadow-lg flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {numbersLoading ? (
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -529,27 +548,27 @@ export function DashboardClient({
           </button>
         </div>
 
-        {/* 3. CHARITY PREFERENCE SELECTOR */}
-        <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
+        {/* 3. PERIWINKLE CHARITY ALLOCATION CARD */}
+        <div className="glass-panel-periwinkle p-6 sm:p-8 rounded-3xl border border-periwinkle/30 space-y-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center">
-              <Heart className="w-5 h-5 fill-teal-400/20" />
+            <div className="w-10 h-10 rounded-xl bg-periwinkle/20 text-periwinkle flex items-center justify-center">
+              <Heart className="w-5 h-5 fill-periwinkle/30" />
             </div>
             <div>
               <h3 className="font-display font-bold text-xl text-white">Charity Allocation Settings</h3>
-              <p className="text-xs text-gray-400">Direct 10%–100% of your fee</p>
+              <p className="text-xs text-periwinkle-muted">Direct 10%–100% of your fee</p>
             </div>
           </div>
 
           <div className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-periwinkle uppercase tracking-wider mb-2">
                 Primary Designated Charity
               </label>
               <select
                 value={selectedCharityId}
                 onChange={(e) => setSelectedCharityId(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-teal-500"
+                className="w-full bg-[#131A2E] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-periwinkle"
               >
                 {charities.map((c) => (
                   <option key={c.id} value={c.id} className="bg-gray-900 text-white">
@@ -568,17 +587,17 @@ export function DashboardClient({
                 />
                 <div className="flex-1">
                   <h4 className="font-bold text-white text-sm">{currentCharity.name}</h4>
-                  <p className="text-xs text-gray-400 line-clamp-1">{currentCharity.short_description}</p>
+                  <p className="text-xs text-periwinkle-muted line-clamp-1">{currentCharity.short_description}</p>
                 </div>
               </div>
             )}
 
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                <label className="text-xs font-semibold text-periwinkle uppercase tracking-wider">
                   Contribution Share
                 </label>
-                <span className="font-display font-bold text-teal-400 text-base">
+                <span className="font-display font-bold text-periwinkle text-base">
                   {charityPercentage}%
                 </span>
               </div>
@@ -589,14 +608,14 @@ export function DashboardClient({
                 step="5"
                 value={charityPercentage}
                 onChange={(e) => setCharityPercentage(Number(e.target.value))}
-                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-teal-500"
+                className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-periwinkle"
               />
             </div>
 
             <button
               onClick={handleSaveCharity}
               disabled={charityLoading}
-              className="w-full py-3 rounded-xl bg-teal-500 hover:bg-teal-600 text-white font-semibold text-sm transition-all shadow-lg shadow-teal-500/20 flex items-center justify-center gap-2"
+              className="w-full py-3 rounded-xl bg-periwinkle/20 hover:bg-periwinkle/30 text-periwinkle border border-periwinkle/40 font-semibold text-sm transition-all shadow-lg flex items-center justify-center gap-2"
             >
               {charityLoading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -613,25 +632,25 @@ export function DashboardClient({
         <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 space-y-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-chartreuse/10 text-chartreuse flex items-center justify-center">
                 <Trophy className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="font-display font-bold text-xl text-white">Your Winnings & Verification</h3>
-                <p className="text-xs text-gray-400">Upload score proof for admin payout approval</p>
+                <p className="text-xs text-periwinkle-muted">Upload score proof for admin payout approval</p>
               </div>
             </div>
 
             <div className="text-right">
-              <span className="text-[10px] uppercase text-gray-400 block">Total Won</span>
-              <span className="font-display font-extrabold text-amber-400 text-lg">
+              <span className="text-[10px] uppercase text-periwinkle-muted block">Total Won</span>
+              <span className="font-display font-extrabold text-chartreuse text-lg">
                 {formatCurrency(winners.reduce((sum, w) => sum + w.prize_amount_pence, 0))}
               </span>
             </div>
           </div>
 
           {winners.length === 0 ? (
-            <div className="p-8 text-center text-gray-400 text-xs glass-panel rounded-2xl border border-white/5">
+            <div className="p-8 text-center text-periwinkle-muted text-xs glass-panel rounded-2xl border border-white/5">
               No winnings recorded yet. Keep your rolling 5 scores active for upcoming monthly draws!
             </div>
           ) : (
@@ -643,7 +662,7 @@ export function DashboardClient({
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-1 rounded-md bg-amber-500/20 text-amber-300 font-bold text-xs uppercase">
+                      <span className="px-2.5 py-1 rounded-md bg-chartreuse/20 text-chartreuse font-bold text-xs uppercase">
                         Tier {win.tier} ({win.tier} Matches)
                       </span>
                       <span className="font-display font-bold text-white text-base">
@@ -655,39 +674,23 @@ export function DashboardClient({
                       <span
                         className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
                           win.verification_status === "approved"
-                            ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
+                            ? "bg-chartreuse/20 text-chartreuse border border-chartreuse/40"
                             : win.verification_status === "pending"
                             ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                             : win.verification_status === "rejected"
-                            ? "bg-red-500/20 text-red-300 border border-red-500/40"
+                            ? "bg-vermillion/20 text-vermillion border border-vermillion/40"
                             : "bg-gray-500/20 text-gray-400 border border-gray-500/40"
                         }`}
                       >
                         Verification: {win.verification_status}
                       </span>
-
-                      <span
-                        className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                          win.payment_status === "paid"
-                            ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
-                            : "bg-gray-500/20 text-gray-400 border border-gray-500/40"
-                        }`}
-                      >
-                        Payout: {win.payment_status}
-                      </span>
                     </div>
                   </div>
-
-                  {win.rejection_reason && (
-                    <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs">
-                      Rejection Reason: {win.rejection_reason}
-                    </div>
-                  )}
 
                   {/* Upload Control */}
                   {win.verification_status !== "approved" && (
                     <div className="pt-2 border-t border-white/5 space-y-2">
-                      <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                      <label className="block text-xs font-semibold text-periwinkle-muted uppercase tracking-wider">
                         Upload Score Proof Screenshot
                       </label>
                       <div className="flex items-center gap-3">
@@ -700,13 +703,13 @@ export function DashboardClient({
                               setUploadingWinnerId(win.id);
                             }
                           }}
-                          className="text-xs text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
+                          className="text-xs text-periwinkle-muted file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-white/10 file:text-white hover:file:bg-white/20"
                         />
                         {uploadingWinnerId === win.id && uploadFile && (
                           <button
                             onClick={() => handleProofUpload(win.id)}
                             disabled={uploadLoading}
-                            className="px-4 py-2 rounded-xl bg-orange-500 text-white font-semibold text-xs hover:bg-orange-600 transition-all flex items-center gap-1.5"
+                            className="px-4 py-2 rounded-xl bg-vermillion text-white font-semibold text-xs transition-all flex items-center gap-1.5"
                           >
                             {uploadLoading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <><Upload className="w-3.5 h-3.5" /> Submit Proof</>}
                           </button>

@@ -2,34 +2,29 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@layer base {
-  :root {
-    --background: 222 47% 7%;
-    --foreground: 210 40% 98%;
-    --card: 222 47% 10%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222 47% 10%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 24 95% 53%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 173 80% 40%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 24 95% 53%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217 33% 20%;
-    --input: 217 33% 20%;
-    --ring: 24 95% 53%;
-    --radius: 0.75rem;
-  }
+:root {
+  --bg-base: #0A0E1C;           /* deep ink-indigo, near-black but not flat black */
+  --bg-elevated: #131A2E;
+  --bg-card: #1B2440;
+
+  --accent-primary: #FF5A36;     /* vermillion — energetic, CTAs, wins, hot moments */
+  --accent-primary-glow: #FF8A65;
+
+  --accent-secondary: #C4F135;   /* acid chartreuse — winning numbers, reveal glow, rare/high-energy */
+  --accent-secondary-glow: #DFFF7A;
+
+  --accent-support: #8EA9FF;     /* periwinkle — charity elements, calm/secondary actions */
+
+  --text-primary: #F4F1EA;       /* warm off-white, not pure white */
+  --text-muted: #7B85A6;
+
+  --gradient-hero: linear-gradient(135deg, #FF5A36 0%, #7A2E3D 45%, #0A0E1C 100%);
+  --gradient-win: linear-gradient(135deg, #DFFF7A 0%, #C4F135 55%, #7FA818 100%);
 }
 
 body {
-  background-color: #0b0f17;
-  color: #f3f4f6;
+  background-color: var(--bg-base);
+  color: var(--text-primary);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
 }
@@ -38,63 +33,124 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-outfit), sans-serif;
 }
 
-/* Glassmorphism utility */
+/* Glassmorphism panels styled with new ink-indigo base */
 .glass-panel {
-  background: rgba(17, 24, 39, 0.75);
+  background: rgba(27, 36, 64, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(123, 133, 166, 0.15);
+  box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
-.glass-panel-amber {
-  background: rgba(249, 115, 22, 0.06);
+.glass-panel-vermillion {
+  background: rgba(255, 90, 54, 0.08);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(249, 115, 22, 0.2);
+  border: 1px solid rgba(255, 90, 54, 0.3);
 }
 
-.glass-panel-teal {
-  background: rgba(20, 184, 166, 0.06);
+.glass-panel-chartreuse {
+  background: rgba(196, 241, 53, 0.08);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(20, 184, 166, 0.2);
+  border: 1px solid rgba(196, 241, 53, 0.35);
 }
 
-/* Glow effects */
-.amber-glow {
-  box-shadow: 0 0 35px -5px rgba(249, 115, 22, 0.35);
+.glass-panel-periwinkle {
+  background: rgba(142, 169, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(142, 169, 255, 0.25);
 }
 
-.teal-glow {
-  box-shadow: 0 0 35px -5px rgba(20, 184, 166, 0.35);
+/* Custom Glow Utilities */
+.glow-vermillion {
+  box-shadow: 0 0 35px -5px rgba(255, 90, 54, 0.45);
 }
 
-.gold-glow {
-  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.45);
+.glow-chartreuse {
+  box-shadow: 0 0 35px -5px rgba(196, 241, 53, 0.55);
 }
 
-/* Custom scrollbar */
+.glow-periwinkle {
+  box-shadow: 0 0 35px -5px rgba(142, 169, 255, 0.35);
+}
+
+/* Ambient Drifting Blobs Background */
+.ambient-blobs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-blob-1 {
+  position: absolute;
+  top: -10%;
+  left: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 90, 54, 0.18) 0%, rgba(122, 46, 61, 0.08) 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: float-blob-1 18s ease-in-out infinite alternate;
+}
+
+.ambient-blob-2 {
+  position: absolute;
+  bottom: 10%;
+  right: 15%;
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(142, 169, 255, 0.15) 0%, rgba(196, 241, 53, 0.06) 60%, transparent 100%);
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: float-blob-2 22s ease-in-out infinite alternate;
+}
+
+@keyframes float-blob-1 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(60px, 40px) scale(1.1); }
+}
+
+@keyframes float-blob-2 {
+  0% { transform: translate(0px, 0px) scale(1); }
+  100% { transform: translate(-50px, -30px) scale(1.15); }
+}
+
+/* 3D Flip Card Digit Animation */
+.flip-tile {
+  perspective: 400px;
+  background: var(--bg-elevated);
+  border: 1px solid rgba(123, 133, 166, 0.2);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0f17;
+  background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: var(--bg-elevated);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: var(--bg-card);
 }
 
-/* Reduced motion support */
+/* Prefers Reduced Motion override */
 @media (prefers-reduced-motion: reduce) {
+  .ambient-blob-1, .ambient-blob-2 {
+    animation: none !important;
+  }
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
 }
