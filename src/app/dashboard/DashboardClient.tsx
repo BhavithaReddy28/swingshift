@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Profile, Charity, Score, Subscription, Winner } from "@/lib/supabase/types";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
@@ -8,19 +8,15 @@ import {
   Heart,
   Target,
   Award,
-  Calendar,
   Trash2,
   Plus,
   Sparkles,
   Shuffle,
-  ShieldCheck,
   Clock,
   Upload,
   CheckCircle2,
   AlertTriangle,
   Loader2,
-  ExternalLink,
-  Edit2,
   Lock,
 } from "lucide-react";
 
@@ -40,7 +36,7 @@ export function DashboardClient({
   charities,
 }: DashboardClientProps) {
   const [profile, setProfile] = useState<Profile>(initialProfile);
-  const [subscription, setSubscription] = useState<Subscription | null>(initialSubscription);
+  const [subscription] = useState<Subscription | null>(initialSubscription);
   const [scores, setScores] = useState<Score[]>(initialScores);
   const [winners, setWinners] = useState<Winner[]>(initialWinners);
 
@@ -74,12 +70,9 @@ export function DashboardClient({
   const [uploadingWinnerId, setUploadingWinnerId] = useState<string | null>(null);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
 
   const isActiveSubscriber = subscription?.status === "active";
 
-  // Score Entry submit handler
   const handleAddScore = async (e: React.FormEvent) => {
     e.preventDefault();
     setScoreError(null);
@@ -101,7 +94,6 @@ export function DashboardClient({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to save score");
 
-      // Refetch scores
       const resScores = await fetch("/api/scores");
       const scoresData = await resScores.json();
       if (scoresData.scores) {
@@ -111,8 +103,8 @@ export function DashboardClient({
       if (data.note) {
         setScoreNote(data.note);
       }
-    } catch (err: any) {
-      setScoreError(err.message);
+    } catch (err: unknown) {
+      setScoreError((err as Error).message);
     } finally {
       setScoreLoading(false);
     }
@@ -130,14 +122,12 @@ export function DashboardClient({
     }
   };
 
-  // Lucky numbers toggle handler
   const toggleNumber = (num: number) => {
     if (!isActiveSubscriber) return;
     if (selectedNumbers.includes(num)) {
       setSelectedNumbers(selectedNumbers.filter((n) => n !== num));
     } else {
       if (selectedNumbers.length >= 5) {
-        // Replace oldest or cap at 5
         setSelectedNumbers([...selectedNumbers.slice(1), num]);
       } else {
         setSelectedNumbers([...selectedNumbers, num]);
@@ -171,14 +161,13 @@ export function DashboardClient({
       if (!res.ok) throw new Error(data.error || "Failed to save numbers");
       setNumbersSuccess(true);
       setTimeout(() => setNumbersSuccess(false), 3000);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      alert((err as Error).message);
     } finally {
       setNumbersLoading(false);
     }
   };
 
-  // Save charity preferences
   const handleSaveCharity = async () => {
     setCharityLoading(true);
     setCharitySuccess(false);
@@ -198,21 +187,19 @@ export function DashboardClient({
       }
       setCharitySuccess(true);
       setTimeout(() => setCharitySuccess(false), 3000);
-    } catch (err: any) {
-      alert(err.message);
+    } catch (err: unknown) {
+      alert((err as Error).message);
     } finally {
       setCharityLoading(false);
     }
   };
 
-  // Proof upload handler
   const handleProofUpload = async (winnerId: string) => {
     if (!uploadFile) {
       alert("Please select an image file first.");
       return;
     }
     setUploadLoading(true);
-    setUploadError(null);
     try {
       const formData = new FormData();
       formData.append("winnerId", winnerId);
@@ -226,13 +213,11 @@ export function DashboardClient({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Upload failed");
 
-      // Update local winners state
       setWinners(winners.map((w) => (w.id === winnerId ? data.winner : w)));
-      setUploadSuccess(true);
       setUploadingWinnerId(null);
       setUploadFile(null);
-    } catch (err: any) {
-      setUploadError(err.message);
+    } catch (err: unknown) {
+      alert((err as Error).message);
     } finally {
       setUploadLoading(false);
     }
