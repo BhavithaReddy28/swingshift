@@ -70,3 +70,52 @@ export const DEFAULT_CHARITIES: Charity[] = [
     updated_at: new Date().toISOString(),
   },
 ];
+
+export const DEFAULT_DRAWS: any[] = [
+  {
+    id: "demo",
+    period_month: "2026-10-01",
+    winning_numbers: [7, 14, 21, 28, 35],
+    total_pool_pence: 125000,
+    rollover_in_pence: 25000,
+    rollover_out_pence: 50000,
+    status: "published",
+    mode: "algorithmic",
+    seed: "demo-seed-1",
+    published_at: new Date().toISOString(),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    winners: [
+      {
+        id: "w1",
+        draw_id: "demo",
+        user_id: "u1",
+        tier: 5,
+        match_count: 5,
+        prize_amount_pence: 50000,
+        payout_status: "paid",
+        verification_status: "approved",
+      },
+      {
+        id: "w2",
+        draw_id: "demo",
+        user_id: "u2",
+        tier: 4,
+        match_count: 4,
+        prize_amount_pence: 21875,
+        payout_status: "approved",
+        verification_status: "approved",
+      },
+      {
+        id: "w3",
+        draw_id: "demo",
+        user_id: "u3",
+        tier: 3,
+        match_count: 3,
+        prize_amount_pence: 15625,
+        payout_status: "pending",
+        verification_status: "pending",
+      },
+    ],
+  },
+];

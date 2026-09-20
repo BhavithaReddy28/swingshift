@@ -1,21 +1,33 @@
+import Link from "next/link";
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { Trophy } from "lucide-react";
+import { Trophy, Sparkles } from "lucide-react";
 import { formatCurrency, formatMonthPeriod, formatDate } from "@/lib/utils";
+import { DEFAULT_DRAWS } from "@/lib/constants";
 
 export const revalidate = 60;
 
 async function getPublishedDraws() {
-  const supabaseAdmin = createAdminClient();
+  const fetchPromise = (async () => {
+    try {
+      const supabaseAdmin = createAdminClient();
+      const { data: draws } = await supabaseAdmin
+        .from("draws")
+        .select("*, winners(*, profiles(full_name))")
+        .eq("status", "published")
+        .order("period_month", { ascending: false });
 
-  const { data: draws } = await supabaseAdmin
-    .from("draws")
-    .select("*, winners(*, profiles(full_name))")
-    .eq("status", "published")
-    .order("period_month", { ascending: false });
+      if (draws && draws.length > 0) return draws;
+      return DEFAULT_DRAWS;
+    } catch (_err) {
+      return DEFAULT_DRAWS;
+    }
+  })();
 
-  return draws || [];
+  const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(DEFAULT_DRAWS), 800));
+
+  return (await Promise.race([fetchPromise, timeoutPromise])) as typeof DEFAULT_DRAWS;
 }
 
 export default async function ResultsPage() {
@@ -70,15 +82,20 @@ export default async function ResultsPage() {
                     </div>
 
                     <div className="flex items-center gap-3">
+                      <Link
+                        href={`/results/${draw.id}/reveal`}
+                        className="px-4 py-2 rounded-xl bg-[#C4F135]/20 text-[#C4F135] hover:bg-[#C4F135]/30 border border-[#C4F135]/40 text-xs font-bold flex items-center gap-1.5 transition-all shadow-md"
+                      >
+                        <Sparkles className="w-4 h-4 text-[#C4F135]" />
+                        Watch Live Reveal
+                      </Link>
+
                       <div className="text-right">
                         <span className="text-xs text-gray-400 block">Total Pool</span>
                         <span className="font-display font-extrabold text-amber-400 text-xl">
                           {formatCurrency(draw.total_pool_pence)}
                         </span>
                       </div>
-                      <span className="text-xs px-2.5 py-1 rounded-md bg-white/10 text-gray-300 font-mono uppercase">
-                        {draw.mode}
-                      </span>
                     </div>
                   </div>
 
