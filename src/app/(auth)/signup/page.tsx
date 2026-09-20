@@ -93,7 +93,11 @@ export default function SignupPage() {
         }
       }
 
-      // 4. Trigger Stripe Checkout API
+      // Set demo session cookies immediately
+      document.cookie = `dh_demo_user=subscriber; path=/; max-age=86400`;
+      document.cookie = `dh_demo_email=${encodeURIComponent(parsed.email)}; path=/; max-age=86400`;
+
+      // 2. Trigger Stripe Checkout API
       try {
         const res = await fetch("/api/stripe/checkout", {
           method: "POST",

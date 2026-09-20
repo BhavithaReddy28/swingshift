@@ -24,43 +24,33 @@ function LoginForm() {
     setError(null);
 
     const isAdminEmail = email.toLowerCase().includes("admin");
+    const targetUrl = isAdminEmail && (redirect === "/dashboard" || !redirect) ? "/admin" : redirect;
 
-    try {
-      const supabase = createClient();
-      const { data, error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (!authError && data?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", data.user.id)
-          .single();
-
-        document.cookie = `dh_demo_user=${profile?.role || "subscriber"}; path=/; max-age=86400`;
-
-        if (profile?.role === "admin" && redirect === "/dashboard") {
-          window.location.href = "/admin";
-        } else {
-          window.location.href = redirect;
-        }
-        return;
-      }
-    } catch (_err) {
-      // Fallback below
-    }
-
-    // Fallback login when Supabase is in test/placeholder mode
+    // Set demo cookies immediately so middleware & portal recognize session
     document.cookie = `dh_demo_user=${isAdminEmail ? "admin" : "subscriber"}; path=/; max-age=86400`;
     document.cookie = `dh_demo_email=${encodeURIComponent(email)}; path=/; max-age=86400`;
 
-    if (isAdminEmail && redirect === "/dashboard") {
-      window.location.href = "/admin";
-    } else {
-      window.location.href = redirect;
+    try {
+      const supabase = createClient();
+      const authPromise = supabase.auth.signInWithPassword({ email, password });
+      const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 600));
+
+      const res: any = await Promise.race([authPromise, timeoutPromise]);
+      if (res && !res.error && res.data?.user) {
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("role")
+          .eq("id", res.data.user.id)
+          .single();
+
+        document.cookie = `dh_demo_user=${profile?.role || (isAdminEmail ? "admin" : "subscriber")}; path=/; max-age=86400`;
+      }
+    } catch (_err) {
+      // Fallback cookies already set
     }
+
+    // Instant redirect without delay!
+    window.location.href = targetUrl;
   };
 
   return (
