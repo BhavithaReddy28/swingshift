@@ -84,7 +84,7 @@ export default async function HomePage() {
             <FadeIn delay={0.3}>
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   className="w-full sm:w-auto px-8 py-4 rounded-2xl font-display font-bold text-lg bg-gradient-to-r from-vermillion to-amber-600 text-white shadow-xl shadow-vermillion/30 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
                 >
                   <Trophy className="w-5 h-5 text-white" />

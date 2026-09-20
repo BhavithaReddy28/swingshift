@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
   // Protect /admin routes
   if (pathname.startsWith("/admin")) {
     if (!user) {
-      const loginUrl = new URL("/auth/login", request.url);
+      const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
@@ -56,7 +56,7 @@ export async function middleware(request: NextRequest) {
   // Protect /dashboard routes
   if (pathname.startsWith("/dashboard")) {
     if (!user) {
-      const loginUrl = new URL("/auth/login", request.url);
+      const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }

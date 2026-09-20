@@ -23,7 +23,7 @@ export default function ResetPasswordPage() {
       const supabase = createClient();
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
       const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${siteUrl}/auth/update-password`,
+        redirectTo: `${siteUrl}/reset-password`,
       });
 
       if (resetError) throw resetError;
@@ -88,7 +88,7 @@ export default function ResetPasswordPage() {
 
           <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5">
             Remembered your password?{" "}
-            <Link href="/auth/login" className="text-orange-400 font-semibold hover:underline">
+            <Link href="/login" className="text-orange-400 font-semibold hover:underline">
               Log In
             </Link>
           </div>

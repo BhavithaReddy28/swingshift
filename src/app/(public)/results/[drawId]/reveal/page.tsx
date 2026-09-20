@@ -9,11 +9,28 @@ async function getRevealData(drawId: string) {
   const supabaseAdmin = createAdminClient();
 
   // Fetch draw
-  const { data: draw } = await supabaseAdmin
+  let { data: draw } = await supabaseAdmin
     .from("draws")
     .select("*, winners(*)")
     .eq("id", drawId)
     .maybeSingle();
+
+  if (!draw && (drawId === "demo" || drawId === "preview" || drawId === "latest")) {
+    draw = {
+      id: "demo",
+      period_month: "2026-10-01",
+      winning_numbers: [7, 14, 21, 28, 35],
+      total_pool_pence: 125000,
+      rollover_in_pence: 25000,
+      rollover_out_pence: 50000,
+      status: "published",
+      mode: "algorithmic",
+      seed: "demo-seed",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+      winners: [],
+    } as any;
+  }
 
   if (!draw) return null;
 

@@ -119,13 +119,13 @@ export function Header() {
           ) : (
             <div className="flex items-center gap-3">
               <Link
-                href="/auth/login"
+                href="/login"
                 className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
               >
                 Log In
               </Link>
               <Link
-                href="/auth/signup"
+                href="/signup"
                 className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-lg shadow-orange-500/20 hover:from-orange-600 hover:to-amber-700 transition-all flex items-center gap-2 hover:scale-[1.02] active:scale-[0.98]"
               >
                 <Award className="w-4 h-4" />
@@ -189,14 +189,14 @@ export function Header() {
             ) : (
               <>
                 <Link
-                  href="/auth/login"
+                  href="/login"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block w-full text-center px-4 py-3 rounded-lg text-sm text-gray-300 bg-white/5"
                 >
                   Log In
                 </Link>
                 <Link
-                  href="/auth/signup"
+                  href="/signup"
                   onClick={() => setMobileMenuOpen(false)}
                   className="block w-full text-center px-4 py-3 rounded-lg text-sm font-semibold bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-lg"
                 >

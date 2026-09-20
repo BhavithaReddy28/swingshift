@@ -87,7 +87,7 @@ function LoginForm() {
               Password
             </label>
             <Link
-              href="/auth/reset-password"
+              href="/reset-password"
               className="text-xs text-orange-400 hover:text-orange-300 transition-colors"
             >
               Forgot password?
@@ -114,7 +114,7 @@ function LoginForm() {
 
       <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5">
         Don&apos;t have an account?{" "}
-        <Link href="/auth/signup" className="text-orange-400 font-semibold hover:underline">
+        <Link href="/signup" className="text-orange-400 font-semibold hover:underline">
           Subscribe & Join Now
         </Link>
       </div>
