@@ -1,6 +1,17 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+const customFetch = (input: RequestInfo | URL, init?: RequestInit) => {
+  const urlString = typeof input === "string" ? input : input.toString();
+  if (urlString.includes("placeholder")) {
+    return Promise.resolve(new Response(JSON.stringify({ data: null, error: { message: "Mock project" } }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" }
+    }));
+  }
+  return fetch(input, init);
+};
+
 export async function createClient() {
   const cookieStore = await cookies();
 
@@ -22,5 +33,8 @@ export async function createClient() {
         }
       },
     },
+    global: {
+      fetch: customFetch
+    }
   });
 }

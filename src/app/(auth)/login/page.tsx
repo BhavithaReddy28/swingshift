@@ -18,38 +18,26 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
     const isAdminEmail = email.toLowerCase().includes("admin");
     const targetUrl = isAdminEmail && (redirect === "/dashboard" || !redirect) ? "/admin" : redirect;
 
-    // Set demo cookies immediately so middleware & portal recognize session
+    // 1. Set session cookies instantly
     document.cookie = `dh_demo_user=${isAdminEmail ? "admin" : "subscriber"}; path=/; max-age=86400`;
     document.cookie = `dh_demo_email=${encodeURIComponent(email)}; path=/; max-age=86400`;
 
+    // 2. Background attempt to authenticate if Supabase is active
     try {
       const supabase = createClient();
-      const authPromise = supabase.auth.signInWithPassword({ email, password });
-      const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(null), 600));
-
-      const res: any = await Promise.race([authPromise, timeoutPromise]);
-      if (res && !res.error && res.data?.user) {
-        const { data: profile } = await supabase
-          .from("profiles")
-          .select("role")
-          .eq("id", res.data.user.id)
-          .single();
-
-        document.cookie = `dh_demo_user=${profile?.role || (isAdminEmail ? "admin" : "subscriber")}; path=/; max-age=86400`;
-      }
+      supabase.auth.signInWithPassword({ email, password }).catch(() => {});
     } catch (_err) {
-      // Fallback cookies already set
+      // Ignore background error
     }
 
-    // Instant redirect without delay!
+    // 3. Instant zero-latency navigation!
     window.location.href = targetUrl;
   };
 

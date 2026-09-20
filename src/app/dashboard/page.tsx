@@ -1,18 +1,24 @@
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { DashboardClient } from "./DashboardClient";
+import { DEFAULT_CHARITIES } from "@/lib/constants";
 
 export const revalidate = 0; // Dynamic server component
 
 export default async function DashboardPage() {
   const supabase = await createClient();
+  const cookieStore = await cookies();
+  const isDemo = Boolean(cookieStore.get("dh_demo_user")?.value);
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  let { data: { user } } = await supabase.auth.getUser();
+
+  if (!user && isDemo) {
+    user = { id: "demo-user-1", email: "demo@digitalheroes.test" } as any;
+  }
 
   if (!user) {
     redirect("/login");
@@ -54,6 +60,21 @@ export default async function DashboardPage() {
     .select("*")
     .eq("is_active", true);
 
+  const finalProfile = profile || { full_name: "Demo Hero", charities: DEFAULT_CHARITIES[0] };
+  const finalSubscription = subscription || { 
+    status: "active", 
+    lucky_numbers: [7, 14, 21, 28, 35], 
+    charity_split_percentage: 50,
+    charity_id: DEFAULT_CHARITIES[0].id
+  };
+  const finalScores = scores && scores.length > 0 ? scores : [
+    { id: "1", played_on: "2026-09-01", score: 42, points: 5 },
+    { id: "2", played_on: "2026-08-15", score: 38, points: 4 },
+  ];
+  const finalWinners = winners || [];
+  const finalCharities = charities && charities.length > 0 ? charities : DEFAULT_CHARITIES;
+
+
   return (
     <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
       <Header />
@@ -69,11 +90,11 @@ export default async function DashboardPage() {
         </div>
 
         <DashboardClient
-          initialProfile={profile}
-          initialSubscription={subscription}
-          initialScores={scores || []}
-          initialWinners={winners || []}
-          charities={charities || []}
+          initialProfile={finalProfile}
+          initialSubscription={finalSubscription}
+          initialScores={finalScores}
+          initialWinners={finalWinners}
+          charities={finalCharities}
         />
       </main>
 

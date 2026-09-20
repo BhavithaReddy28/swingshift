@@ -13,11 +13,16 @@ export interface Charity {
   short_description: string;
   long_description: string;
   logo_url: string;
-  hero_image_url: string;
+  banner_url?: string;
+  hero_image_url?: string;
   category: string;
+  website_url?: string;
+  registration_number?: string;
   is_featured: boolean;
   is_active: boolean;
+  total_raised_pence?: number;
   created_at: string;
+  updated_at?: string;
 }
 
 export interface Profile {
