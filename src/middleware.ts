@@ -32,30 +32,35 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const demoRole = request.cookies.get("dh_demo_user")?.value;
+  const isDemoLoggedIn = Boolean(demoRole);
+
   const pathname = request.nextUrl.pathname;
 
   // Protect /admin routes
   if (pathname.startsWith("/admin")) {
-    if (!user) {
+    if (!user && !isDemoLoggedIn) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
     }
 
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
+    if (user) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
 
-    if (!profile || profile.role !== "admin") {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      if (!profile || profile.role !== "admin") {
+        return NextResponse.redirect(new URL("/dashboard", request.url));
+      }
     }
   }
 
   // Protect /dashboard routes
   if (pathname.startsWith("/dashboard")) {
-    if (!user) {
+    if (!user && !isDemoLoggedIn) {
       const loginUrl = new URL("/login", request.url);
       loginUrl.searchParams.set("redirect", pathname);
       return NextResponse.redirect(loginUrl);
