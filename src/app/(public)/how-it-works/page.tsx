@@ -72,7 +72,7 @@ export default function HowItWorksPage() {
                   <td className="py-5 px-6 text-white font-semibold">5 Matches</td>
                   <td className="py-5 px-6 text-orange-400 font-bold">40% of Pool</td>
                   <td className="py-5 px-6 text-gray-300">
-                    Split equally among 5-match winners. Unclaimed 40% slice rolls over 100% into next month's Jackpot.
+                    Split equally among 5-match winners. Unclaimed 40% slice rolls over 100% into next month&apos;s Jackpot.
                   </td>
                 </tr>
                 <tr className="hover:bg-white/5 transition-colors">
@@ -80,15 +80,15 @@ export default function HowItWorksPage() {
                   <td className="py-5 px-6 text-white font-semibold">4 Matches</td>
                   <td className="py-5 px-6 text-teal-400 font-bold">35% of Pool</td>
                   <td className="py-5 px-6 text-gray-300">
-                    Split equally among 4-match winners. Unclaimed shares are added to next month's Jackpot rollover.
+                    Split equally among 4-match winners. Unclaimed shares are added to next month&apos;s Jackpot rollover.
                   </td>
                 </tr>
                 <tr className="hover:bg-white/5 transition-colors">
                   <td className="py-5 px-6 font-display font-bold text-gray-300">Tier Three</td>
                   <td className="py-5 px-6 text-white font-semibold">3 Matches</td>
-                  <td className="py-5 px-6 text-gray-300 font-bold">25% of Pool</td>
+                  <td className="py-5 px-6 text-orange-400 font-bold">25% of Pool</td>
                   <td className="py-5 px-6 text-gray-300">
-                    Split equally among 3-match winners. Unclaimed shares are added to next month's Jackpot rollover.
+                    Split equally among 3-match winners. Unclaimed shares are added to next month&apos;s Jackpot rollover.
                   </td>
                 </tr>
               </tbody>
