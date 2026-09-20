@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { Heart, Calendar, MapPin, ArrowRight, ShieldCheck } from "lucide-react";
+import { Calendar, MapPin, ShieldCheck } from "lucide-react";
 import { DirectDonationModal } from "@/components/shared/DirectDonationModal";
 import { formatDate } from "@/lib/utils";
 

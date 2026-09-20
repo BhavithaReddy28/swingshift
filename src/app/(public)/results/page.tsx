@@ -1,7 +1,7 @@
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { Trophy, Calendar, Sparkles, Award } from "lucide-react";
+import { Trophy } from "lucide-react";
 import { formatCurrency, formatMonthPeriod, formatDate } from "@/lib/utils";
 
 export const revalidate = 60;

@@ -1,7 +1,6 @@
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
-import { Trophy, ShieldCheck, Target, RefreshCw, Sparkles, HelpCircle } from "lucide-react";
-import Link from "next/link";
+import { Trophy, ShieldCheck, RefreshCw } from "lucide-react";
 
 export default function HowItWorksPage() {
   return (

@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { Header } from "@/components/navigation/Header";
 import { Footer } from "@/components/navigation/Footer";
 import { createAdminClient } from "@/lib/supabase/admin";
-import { Heart, Search, ArrowRight, Tag, Calendar, MapPin } from "lucide-react";
 import { CharityDirectoryClient } from "./CharityDirectoryClient";
 
 export const revalidate = 60;
