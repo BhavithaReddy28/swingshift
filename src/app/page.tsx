@@ -7,43 +7,75 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { formatCurrency, formatMonthPeriod } from "@/lib/utils";
 import { FlipCountdown } from "@/components/ui/FlipCountdown";
 
+import { DEFAULT_CHARITIES } from "@/lib/constants";
+
 export const revalidate = 60;
 
 async function getHomeData() {
-  const supabaseAdmin = createAdminClient();
-
-  const { data: charities } = await supabaseAdmin
-    .from("charities")
-    .select("*")
-    .eq("is_active", true);
-
-  const featuredCharity = charities?.find((c) => c.is_featured) || charities?.[0];
-
-  const { data: payments } = await supabaseAdmin.from("payments").select("charity_amount_pence");
-  const totalRaisedPence = payments ? payments.reduce((sum, p) => sum + p.charity_amount_pence, 0) : 142500;
-
-  const { data: activeSubs } = await supabaseAdmin.from("subscriptions").select("id").eq("status", "active");
-  const activeCount = activeSubs ? activeSubs.length : 24;
-
-  const { data: latestDraw } = await supabaseAdmin
-    .from("draws")
-    .select("*")
-    .eq("status", "published")
-    .order("period_month", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  const estimatedPoolPence = activeCount * 500 + (latestDraw?.rollover_out_pence || 25000);
-  const currentJackpotPence = Math.floor(estimatedPoolPence * 0.40);
-
-  return {
-    charityCount: charities?.length || 8,
-    featuredCharity,
-    totalRaisedPence,
-    activeCount,
-    currentJackpotPence,
-    latestDraw,
+  const defaultStats = {
+    charityCount: DEFAULT_CHARITIES.length,
+    featuredCharity: DEFAULT_CHARITIES[0],
+    totalRaisedPence: 142500,
+    activeCount: 24,
+    currentJackpotPence: 75000,
+    latestDraw: {
+      id: "demo",
+      period_month: "2026-10-01",
+      winning_numbers: [7, 14, 21, 28, 35],
+      total_pool_pence: 125000,
+      rollover_in_pence: 25000,
+      rollover_out_pence: 50000,
+      status: "published",
+      mode: "algorithmic",
+      seed: "demo-seed",
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    },
   };
+
+  const fetchPromise = (async () => {
+    try {
+      const supabaseAdmin = createAdminClient();
+
+      const [charitiesRes, paymentsRes, subsRes, drawRes] = await Promise.all([
+        supabaseAdmin.from("charities").select("*").eq("is_active", true),
+        supabaseAdmin.from("payments").select("charity_amount_pence"),
+        supabaseAdmin.from("subscriptions").select("id").eq("status", "active"),
+        supabaseAdmin
+          .from("draws")
+          .select("*")
+          .eq("status", "published")
+          .order("period_month", { ascending: false })
+          .limit(1)
+          .maybeSingle(),
+      ]);
+
+      const charities = charitiesRes.data && charitiesRes.data.length > 0 ? charitiesRes.data : DEFAULT_CHARITIES;
+      const featuredCharity = charities.find((c: any) => c.is_featured) || charities[0];
+      const totalRaisedPence = paymentsRes.data && paymentsRes.data.length > 0
+        ? paymentsRes.data.reduce((sum: number, p: any) => sum + (p.charity_amount_pence || 0), 0)
+        : 142500;
+      const activeCount = subsRes.data ? subsRes.data.length : 24;
+      const latestDraw = drawRes.data || defaultStats.latestDraw;
+      const estimatedPoolPence = activeCount * 500 + (latestDraw?.rollover_out_pence || 25000);
+      const currentJackpotPence = Math.floor(estimatedPoolPence * 0.40);
+
+      return {
+        charityCount: charities.length,
+        featuredCharity,
+        totalRaisedPence,
+        activeCount,
+        currentJackpotPence,
+        latestDraw,
+      };
+    } catch (_err) {
+      return defaultStats;
+    }
+  })();
+
+  const timeoutPromise = new Promise((resolve) => setTimeout(() => resolve(defaultStats), 1000));
+
+  return (await Promise.race([fetchPromise, timeoutPromise])) as typeof defaultStats;
 }
 
 export default async function HomePage() {
