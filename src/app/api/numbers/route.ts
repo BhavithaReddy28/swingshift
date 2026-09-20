@@ -2,8 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { luckyNumbersSchema } from "@/lib/zod-schemas";
 
+import { cookies } from "next/headers";
+
 export async function POST(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isDemo = cookieStore.get("dh_demo_user")?.value;
+
+    if (isDemo) {
+      const body = await req.json();
+      const parsed = luckyNumbersSchema.parse(body);
+      const sortedNumbers = [...parsed.numbers].sort((a, b) => a - b);
+      return NextResponse.json({ luckyNumbers: sortedNumbers });
+    }
+
     const supabase = await createClient();
     const {
       data: { user },

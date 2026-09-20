@@ -3,8 +3,22 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { scoreSchema } from "@/lib/zod-schemas";
 
+import { cookies } from "next/headers";
+
 export async function GET(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isDemo = cookieStore.get("dh_demo_user")?.value;
+
+    if (isDemo) {
+      return NextResponse.json({
+        scores: [
+          { id: "s1", score: 42, played_on: "2026-09-01", created_at: new Date().toISOString() },
+          { id: "s2", score: 38, played_on: "2026-08-15", created_at: new Date().toISOString() },
+        ]
+      });
+    }
+
     const supabase = await createClient();
     const {
       data: { user },
@@ -32,6 +46,23 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isDemo = cookieStore.get("dh_demo_user")?.value;
+
+    if (isDemo) {
+      const body = await req.json();
+      const parsed = scoreSchema.parse(body);
+      return NextResponse.json({
+        score: {
+          id: `demo-score-${Date.now()}`,
+          score: parsed.score,
+          played_on: parsed.playedOn,
+          created_at: new Date().toISOString()
+        },
+        note: "Demo Mode: Score saved locally but will not persist."
+      });
+    }
+
     const supabase = await createClient();
     const {
       data: { user },
@@ -102,6 +133,13 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isDemo = cookieStore.get("dh_demo_user")?.value;
+
+    if (isDemo) {
+      return NextResponse.json({ success: true });
+    }
+
     const supabase = await createClient();
     const {
       data: { user },
