@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "gbp",
             product_data: {
-              name: `Digital Heroes ${PLAN_PRICES[plan].name}`,
+              name: `SwingShift ${PLAN_PRICES[plan].name}`,
               description: `Golf Score Subscription (${charityPercentage}% to Charity)`,
             },
             unit_amount: PLAN_PRICES[plan].amountPence,

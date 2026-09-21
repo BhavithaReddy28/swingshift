@@ -45,18 +45,18 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
   const { charity, events } = data;
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
       <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
         {/* Banner Hero */}
-        <div className="relative rounded-3xl overflow-hidden h-72 sm:h-96 border border-white/10 shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden h-72 sm:h-96 border border-border shadow-2xl">
           <img
             src={charity.hero_image_url}
             alt={charity.name}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17] via-[#0B0F17]/60 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-[#0B0F17]/60 to-transparent" />
 
           <div className="absolute bottom-6 left-6 right-6 sm:bottom-10 sm:left-10 flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6">
             <div className="flex items-center gap-4">
@@ -64,7 +64,7 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
                 <img src={charity.logo_url} alt="Logo" className="max-h-full max-w-full object-contain" />
               </div>
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-teal-400 bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
+                <span className="text-xs font-bold uppercase tracking-wider text-support bg-teal-500/10 px-3 py-1 rounded-full border border-teal-500/20">
                   {charity.category}
                 </span>
                 <h1 className="font-display text-3xl sm:text-5xl font-extrabold text-white mt-2">
@@ -81,7 +81,7 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Description */}
           <div className="lg:col-span-2 space-y-8">
-            <div className="glass-panel p-8 rounded-2xl border border-white/10 space-y-4">
+            <div className="glass-panel p-8 rounded-2xl border border-border space-y-4">
               <h2 className="font-display text-2xl font-bold text-white">About {charity.name}</h2>
               <p className="text-gray-300 leading-relaxed text-base whitespace-pre-line">
                 {charity.long_description}
@@ -91,12 +91,12 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
             {/* Upcoming Events */}
             <div className="space-y-4">
               <h3 className="font-display text-2xl font-bold text-white flex items-center gap-2">
-                <Calendar className="w-6 h-6 text-orange-400" />
+                <Calendar className="w-6 h-6 text-secondary" />
                 Upcoming Charity Events
               </h3>
 
               {events.length === 0 ? (
-                <div className="glass-panel p-6 rounded-2xl text-center text-gray-400">
+                <div className="glass-panel p-6 rounded-2xl text-center text-muted">
                   No upcoming events scheduled right now. Check back soon!
                 </div>
               ) : (
@@ -104,7 +104,7 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
                   {events.map((event) => (
                     <div
                       key={event.id}
-                      className="glass-panel p-6 rounded-2xl border border-white/10 space-y-3 hover:border-teal-500/40 transition-all"
+                      className="glass-panel p-6 rounded-2xl border border-border space-y-3 hover:border-teal-500/40 transition-all"
                     >
                       <div className="relative h-36 rounded-xl overflow-hidden">
                         <img
@@ -112,16 +112,16 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
                           alt={event.title}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] text-teal-300 font-semibold flex items-center gap-1">
+                        <div className="absolute top-2 right-2 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-md text-[11px] text-support font-semibold flex items-center gap-1">
                           <Calendar className="w-3 h-3" />
                           {formatDate(event.event_date)}
                         </div>
                       </div>
 
                       <h4 className="font-display font-bold text-white text-lg">{event.title}</h4>
-                      <p className="text-gray-400 text-xs line-clamp-2">{event.description}</p>
-                      <div className="flex items-center gap-1.5 text-xs text-gray-400 pt-1">
-                        <MapPin className="w-3.5 h-3.5 text-orange-400" />
+                      <p className="text-muted text-xs line-clamp-2">{event.description}</p>
+                      <div className="flex items-center gap-1.5 text-xs text-muted pt-1">
+                        <MapPin className="w-3.5 h-3.5 text-secondary" />
                         {event.location}
                       </div>
                     </div>
@@ -133,13 +133,13 @@ export default async function CharitySlugPage({ params }: { params: Promise<{ sl
 
           {/* Sidebar Box */}
           <div className="space-y-6">
-            <div className="glass-panel p-6 rounded-2xl border border-white/10 space-y-4">
+            <div className="glass-panel p-6 rounded-2xl border border-border space-y-4">
               <h3 className="font-display text-lg font-bold text-white flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-teal-400" />
+                <ShieldCheck className="w-5 h-5 text-support" />
                 Direct Impact Guarantee
               </h3>
-              <p className="text-xs text-gray-400 leading-relaxed">
-                When you subscribe to Digital Heroes, you can choose {charity.name} as your designated charity. Between 10% and 100% of your monthly subscription fee goes directly to their mission.
+              <p className="text-xs text-muted leading-relaxed">
+                When you subscribe to SwingShift, you can choose {charity.name} as your designated charity. Between 10% and 100% of your monthly subscription fee goes directly to their mission.
               </p>
               <div className="pt-2">
                 <DirectDonationModal charityId={charity.id} charityName={charity.name} fullWidth />

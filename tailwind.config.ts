@@ -12,43 +12,38 @@ const config: Config = {
       colors: {
         background: "var(--bg-base)",
         foreground: "var(--text-primary)",
+        input: "var(--bg-input)",
+        muted: "var(--text-muted)",
+        border: "var(--border-subtle)",
         ink: {
-          base: "#0A0E1C",
-          elevated: "#131A2E",
-          card: "#1B2440",
-        },
-        vermillion: {
-          DEFAULT: "#FF5A36",
-          glow: "#FF8A65",
-          dark: "#7A2E3D",
-        },
-        chartreuse: {
-          DEFAULT: "#C4F135",
-          glow: "#DFFF7A",
-          dark: "#7FA818",
-        },
-        periwinkle: {
-          DEFAULT: "#8EA9FF",
-          muted: "#7B85A6",
-        },
-        card: {
-          DEFAULT: "#1B2440",
-          foreground: "#F4F1EA",
-          border: "rgba(123, 133, 166, 0.15)",
+          base: "var(--bg-base)",
+          elevated: "var(--bg-elevated)",
+          card: "var(--bg-card)",
         },
         primary: {
-          DEFAULT: "#FF5A36",
-          hover: "#E04826",
-          foreground: "#FFFFFF",
+          DEFAULT: "var(--accent-primary)",
+          glow: "var(--accent-primary-glow)",
         },
         secondary: {
-          DEFAULT: "#C4F135",
-          hover: "#B3E024",
-          foreground: "#0A0E1C",
+          DEFAULT: "var(--accent-secondary)",
+          glow: "var(--accent-secondary-glow)",
         },
         support: {
-          DEFAULT: "#8EA9FF",
-          foreground: "#0A0E1C",
+          DEFAULT: "var(--accent-support)",
+        },
+        vermillion: {
+          DEFAULT: "var(--accent-primary)",
+          glow: "var(--accent-primary-glow)",
+        },
+        chartreuse: {
+          DEFAULT: "var(--accent-secondary)",
+          glow: "var(--accent-secondary-glow)",
+        },
+        periwinkle: {
+          DEFAULT: "var(--accent-support)",
+        },
+        card: {
+          DEFAULT: "var(--bg-card)",
         },
       },
       fontFamily: {

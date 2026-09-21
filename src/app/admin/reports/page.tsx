@@ -71,33 +71,33 @@ export default async function AdminReportsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="font-display text-3xl font-extrabold text-white">Financial & Impact Reports</h1>
-        <p className="text-gray-400 text-sm mt-1">
+        <p className="text-muted text-sm mt-1">
           Detailed metrics on platform subscription revenue, per-charity funding distributions, and draw statistics.
         </p>
       </div>
 
       {/* METRIC SUMMARY */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-gray-400">
+        <div className="glass-panel p-6 rounded-3xl border border-border space-y-2">
+          <div className="flex items-center justify-between text-muted">
             <span className="text-xs font-semibold uppercase tracking-wider">Gross Subscription Volume</span>
-            <TrendingUp className="w-5 h-5 text-orange-400" />
+            <TrendingUp className="w-5 h-5 text-secondary" />
           </div>
           <div className="font-display font-extrabold text-3xl text-white">
             {formatCurrency(report.totalRevenuePence)}
           </div>
-          <span className="text-xs text-gray-400">Total Stripe payments processed</span>
+          <span className="text-xs text-muted">Total Stripe payments processed</span>
         </div>
 
-        <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-gray-400">
+        <div className="glass-panel p-6 rounded-3xl border border-border space-y-2">
+          <div className="flex items-center justify-between text-muted">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Charity Funding</span>
-            <Heart className="w-5 h-5 text-teal-400 fill-teal-400/20" />
+            <Heart className="w-5 h-5 text-support fill-teal-400/20" />
           </div>
-          <div className="font-display font-extrabold text-3xl text-teal-300">
+          <div className="font-display font-extrabold text-3xl text-support">
             {formatCurrency(report.totalCharityPence)}
           </div>
-          <span className="text-xs text-teal-400">10%–100% Subscriber allocations</span>
+          <span className="text-xs text-support">10%–100% Subscriber allocations</span>
         </div>
 
         <div className="glass-panel-amber p-6 rounded-3xl border border-amber-500/30 space-y-2">
@@ -111,49 +111,49 @@ export default async function AdminReportsPage() {
           <span className="text-xs text-amber-200">£5/active sub per month</span>
         </div>
 
-        <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-2">
-          <div className="flex items-center justify-between text-gray-400">
+        <div className="glass-panel p-6 rounded-3xl border border-border space-y-2">
+          <div className="flex items-center justify-between text-muted">
             <span className="text-xs font-semibold uppercase tracking-wider">Active Subscriber Count</span>
-            <Users className="w-5 h-5 text-orange-400" />
+            <Users className="w-5 h-5 text-secondary" />
           </div>
           <div className="font-display font-extrabold text-3xl text-white">{report.activeSubs}</div>
-          <span className="text-xs text-gray-400">Out of {report.totalUsers} registered users</span>
+          <span className="text-xs text-muted">Out of {report.totalUsers} registered users</span>
         </div>
       </div>
 
       {/* PER-CHARITY DISTRIBUTION BREAKDOWN */}
-      <div className="glass-panel p-8 rounded-3xl border border-white/10 space-y-6">
+      <div className="glass-panel p-8 rounded-3xl border border-border space-y-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-xl bg-teal-500/10 text-support flex items-center justify-center">
             <PieChart className="w-5 h-5" />
           </div>
           <div>
             <h2 className="font-display font-bold text-xl text-white">Charity Revenue Distribution</h2>
-            <p className="text-xs text-gray-400">Funds raised broken down by partner charity</p>
+            <p className="text-xs text-muted">Funds raised broken down by partner charity</p>
           </div>
         </div>
 
         {report.charityBreakdown.length === 0 ? (
-          <div className="p-8 text-center text-gray-400 text-xs">No payment history recorded yet.</div>
+          <div className="p-8 text-center text-muted text-xs">No payment history recorded yet.</div>
         ) : (
           <div className="space-y-3">
             {report.charityBreakdown.map((cb, idx) => (
               <div
                 key={idx}
-                className="p-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between"
+                className="p-4 rounded-2xl bg-ink-elevated border border-border flex items-center justify-between"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-teal-500/20 text-teal-300 font-bold text-xs flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-lg bg-teal-500/20 text-support font-bold text-xs flex items-center justify-center">
                     #{idx + 1}
                   </div>
                   <div>
                     <span className="font-bold text-white text-base">{cb.name}</span>
-                    <span className="text-xs text-gray-400 block">{cb.count} Payment Allocations</span>
+                    <span className="text-xs text-muted block">{cb.count} Payment Allocations</span>
                   </div>
                 </div>
 
                 <div className="text-right">
-                  <span className="font-display font-extrabold text-teal-300 text-lg">
+                  <span className="font-display font-extrabold text-support text-lg">
                     {formatCurrency(cb.totalPence)}
                   </span>
                 </div>

@@ -44,10 +44,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
-      <div className="border-b border-white/10 bg-[#070A10] px-4 sm:px-6 lg:px-8 py-3">
+      <div className="border-b border-border bg-background px-4 sm:px-6 lg:px-8 py-3">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-400">
             <ShieldAlert className="w-4 h-4 text-amber-400" />

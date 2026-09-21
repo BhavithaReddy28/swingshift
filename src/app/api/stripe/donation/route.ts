@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "gbp",
             product_data: {
-              name: "Direct Charity Donation - Digital Heroes",
+              name: "Direct Charity Donation - SwingShift",
               description: "100% of this direct donation goes to the selected charity.",
             },
             unit_amount: parsed.amountPence,

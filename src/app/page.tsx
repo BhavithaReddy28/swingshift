@@ -6,6 +6,7 @@ import { Heart, Trophy, Target, ArrowRight, Sparkles, Users, Play } from "lucide
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatCurrency, formatMonthPeriod } from "@/lib/utils";
 import { FlipCountdown } from "@/components/ui/FlipCountdown";
+import { HeroBackgroundUniverse } from "@/components/illustrations/HeroBackgroundUniverse";
 
 import { DEFAULT_CHARITIES } from "@/lib/constants";
 
@@ -82,30 +83,30 @@ export default async function HomePage() {
   const data = await getHomeData();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0A0E1C] text-[#F4F1EA] selection:bg-[#FF5A36]/30">
+    <div className="min-h-screen flex flex-col bg-transparent text-[#F4F1EA] selection:bg-[#FF5A36]/30">
       <Header />
 
       <main className="flex-1">
-        {/* HERO SECTION WITH AMBIENT GRADIENT BLOBS */}
+        {/* HERO SECTION WITH INTERACTIVE BACKGROUND UNIVERSE */}
         <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32 px-4 sm:px-6 lg:px-8">
-          <div className="ambient-blobs">
-            <div className="ambient-blob-1" />
-            <div className="ambient-blob-2" />
-          </div>
+          
+          <HeroBackgroundUniverse />
 
           <div className="max-w-7xl mx-auto text-center relative z-10">
             <FadeIn>
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel-vermillion text-vermillion text-xs sm:text-sm font-semibold mb-8 border border-vermillion/40">
-                <Sparkles className="w-4 h-4 text-vermillion" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel-primary text-primary text-xs sm:text-sm font-semibold mb-8 border border-primary/40">
+                <Sparkles className="w-4 h-4 text-primary" />
                 <span>Golf with Purpose • Monthly Jackpot • 10%+ Charity Share</span>
               </div>
             </FadeIn>
 
-            <FadeIn delay={0.1}>
-              <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1]">
-                Turn Every Round of Golf Into <span className="bg-gradient-to-r from-vermillion via-vermillion-glow to-amber-400 bg-clip-text text-transparent">Life-Changing Impact</span>
-              </h1>
-            </FadeIn>
+            <div className="relative">
+              <FadeIn delay={0.1}>
+                <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-[1.1] relative z-10">
+                  Turn Every Round of Golf Into <span className="bg-gradient-to-r from-primary via-primary-glow to-primary-glow bg-clip-text text-transparent">Life-Changing Impact</span>
+                </h1>
+              </FadeIn>
+            </div>
 
             <FadeIn delay={0.2}>
               <p className="mt-6 text-lg sm:text-xl text-periwinkle-muted max-w-2xl mx-auto font-light leading-relaxed">
@@ -117,7 +118,7 @@ export default async function HomePage() {
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="/signup"
-                  className="w-full sm:w-auto px-8 py-4 rounded-2xl font-display font-bold text-lg bg-gradient-to-r from-vermillion to-amber-600 text-white shadow-xl shadow-vermillion/30 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+                  className="w-full sm:w-auto px-8 py-4 rounded-2xl font-display font-bold text-lg bg-gradient-to-r from-primary to-primary-glow text-white shadow-xl shadow-primary/30 hover:scale-[1.03] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
                 >
                   <Trophy className="w-5 h-5 text-white" />
                   Subscribe & Play (£20/mo)
@@ -139,7 +140,7 @@ export default async function HomePage() {
             {/* LIVE IMPACT & JACKPOT TICKER COUNTERS */}
             <FadeIn delay={0.4}>
               <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div className="glass-panel p-6 rounded-3xl border border-white/10">
+                <div className="glass-panel p-6 rounded-3xl border border-border">
                   <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-periwinkle/10 text-periwinkle mx-auto mb-3">
                     <Heart className="w-6 h-6 fill-periwinkle/30" />
                   </div>
@@ -151,7 +152,7 @@ export default async function HomePage() {
                   </div>
                 </div>
 
-                <div className="glass-panel p-6 rounded-3xl border border-white/10">
+                <div className="glass-panel p-6 rounded-3xl border border-border">
                   <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-periwinkle/10 text-periwinkle mx-auto mb-3">
                     <Users className="w-6 h-6" />
                   </div>
@@ -163,14 +164,14 @@ export default async function HomePage() {
                   </div>
                 </div>
 
-                <div className="glass-panel-vermillion p-6 rounded-3xl border border-vermillion/40 glow-vermillion">
-                  <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-vermillion/20 text-vermillion mx-auto mb-3">
+                <div className="glass-panel-primary p-6 rounded-3xl border border-primary/40 glow-primary">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/20 text-primary mx-auto mb-3">
                     <Trophy className="w-6 h-6" />
                   </div>
-                  <div className="font-display text-3xl font-extrabold text-vermillion bg-gradient-to-r from-vermillion to-amber-400 bg-clip-text text-transparent">
+                  <div className="font-display text-3xl font-extrabold text-primary bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
                     {formatCurrency(data.currentJackpotPence)}
                   </div>
-                  <div className="text-xs text-vermillion-glow font-medium uppercase tracking-wider mt-1">
+                  <div className="text-xs text-primary-glow font-medium uppercase tracking-wider mt-1">
                     Est. Next Jackpot Pool
                   </div>
                 </div>
@@ -181,7 +182,7 @@ export default async function HomePage() {
 
         {/* FEATURED CHARITY SPOTLIGHT */}
         {data.featuredCharity && (
-          <section className="py-16 bg-[#131A2E] border-y border-white/5 px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-[#131A2E] border-y border-border px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-12">
                 <span className="text-xs font-bold uppercase tracking-widest text-periwinkle bg-periwinkle/10 px-3.5 py-1.5 rounded-full border border-periwinkle/20">
@@ -192,7 +193,7 @@ export default async function HomePage() {
                 </h2>
               </div>
 
-              <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+              <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-border grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                 <div className="space-y-6">
                   <span className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-periwinkle/10 text-periwinkle text-xs font-semibold uppercase tracking-wider">
                     {data.featuredCharity.category}
@@ -212,7 +213,7 @@ export default async function HomePage() {
                   </Link>
                 </div>
 
-                <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <div className="relative h-72 sm:h-96 rounded-2xl overflow-hidden border border-border shadow-2xl">
                   <img
                     src={data.featuredCharity.hero_image_url}
                     alt={data.featuredCharity.name}
@@ -247,8 +248,8 @@ export default async function HomePage() {
 
           <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <StaggerItem>
-              <div className="glass-panel p-8 rounded-3xl border border-white/10 relative h-full flex flex-col hover:border-vermillion/40 transition-all group">
-                <div className="w-12 h-12 rounded-2xl bg-vermillion/10 text-vermillion font-display font-extrabold text-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+              <div className="glass-panel p-8 rounded-3xl border border-border relative h-full flex flex-col hover:border-primary/40 transition-all group">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary font-display font-extrabold text-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   1
                 </div>
                 <h3 className="font-display text-xl font-bold text-white mb-3">
@@ -261,7 +262,7 @@ export default async function HomePage() {
             </StaggerItem>
 
             <StaggerItem>
-              <div className="glass-panel p-8 rounded-3xl border border-white/10 relative h-full flex flex-col hover:border-chartreuse/40 transition-all group">
+              <div className="glass-panel p-8 rounded-3xl border border-border relative h-full flex flex-col hover:border-chartreuse/40 transition-all group">
                 <div className="w-12 h-12 rounded-2xl bg-chartreuse/10 text-chartreuse font-display font-extrabold text-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   2
                 </div>
@@ -275,7 +276,7 @@ export default async function HomePage() {
             </StaggerItem>
 
             <StaggerItem>
-              <div className="glass-panel p-8 rounded-3xl border border-white/10 relative h-full flex flex-col hover:border-periwinkle/40 transition-all group">
+              <div className="glass-panel p-8 rounded-3xl border border-border relative h-full flex flex-col hover:border-periwinkle/40 transition-all group">
                 <div className="w-12 h-12 rounded-2xl bg-periwinkle/10 text-periwinkle font-display font-extrabold text-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   3
                 </div>
@@ -292,7 +293,7 @@ export default async function HomePage() {
 
         {/* MOST RECENT DRAW RESULTS */}
         {data.latestDraw && data.latestDraw.winning_numbers && (
-          <section className="py-16 bg-[#131A2E] border-t border-white/5 px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-[#131A2E] border-t border-border px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               <span className="text-xs font-bold uppercase tracking-widest text-chartreuse bg-chartreuse/10 px-3.5 py-1.5 rounded-full border border-chartreuse/20">
                 Latest Published Draw • {formatMonthPeriod(data.latestDraw.period_month)}
@@ -315,7 +316,7 @@ export default async function HomePage() {
               <div className="flex justify-center pt-2">
                 <Link
                   href={`/results/${data.latestDraw.id}/reveal`}
-                  className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-vermillion to-amber-500 text-white font-bold text-sm shadow-xl shadow-vermillion/25 hover:scale-105 transition-all flex items-center gap-2"
+                  className="px-8 py-3.5 rounded-2xl bg-gradient-to-r from-primary to-primary-glow text-white font-bold text-sm shadow-xl shadow-primary/25 hover:scale-105 transition-all flex items-center gap-2"
                 >
                   <Play className="w-4 h-4 fill-white" /> Replay Live Reveal Experience
                 </Link>

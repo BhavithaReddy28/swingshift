@@ -18,6 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import Link from "next/link";
+import { ConfettiBackground } from "@/components/illustrations/ConfettiBackground";
 
 interface DrawRevealProps {
   draw: {
@@ -156,23 +157,25 @@ export function DrawRevealExperience({
   const isDrawPublished = draw.status === "published" || isAdminSimulation;
 
   return (
-    <div className="relative min-h-screen bg-[#0A0E1C] text-[#F4F1EA] flex flex-col justify-between overflow-hidden selection:bg-[#FF5A36]/30">
+    <div className="relative min-h-screen bg-transparent text-[#F4F1EA] flex flex-col justify-between overflow-hidden selection:bg-primary/30">
       {/* Background Hero Gradient & Ambient Blobs */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-vermillion/20 via-[#7A2E3D]/10 to-[#0A0E1C] pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/20 via-[#7A2E3D]/10 to-[#0A0E1C] pointer-events-none z-0" />
       <div className="ambient-blobs">
         <div className="ambient-blob-1" />
         <div className="ambient-blob-2" />
       </div>
 
+      <ConfettiBackground count={25} className="z-0" />
+
       {/* TOP HEADER BAR */}
       <header className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
         <Link href="/results" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-vermillion to-amber-600 flex items-center justify-center shadow-lg shadow-vermillion/20 group-hover:scale-105 transition-transform">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
             <Trophy className="w-5 h-5 text-white" />
           </div>
           <div>
             <span className="font-display font-bold text-xl text-white tracking-tight">
-              Digital<span className="text-vermillion">Heroes</span>
+              Digital<span className="text-primary">Heroes</span>
             </span>
             <span className="block text-[10px] uppercase tracking-wider text-periwinkle font-semibold -mt-1">
               Live Reveal Experience
@@ -186,7 +189,7 @@ export function DrawRevealExperience({
           className={`p-3 rounded-2xl border transition-all flex items-center gap-2 text-xs font-semibold ${
             soundOn
               ? "bg-chartreuse/10 border-chartreuse/40 text-chartreuse shadow-lg shadow-chartreuse/10"
-              : "bg-[#131A2E] border-white/10 text-periwinkle-muted hover:text-white"
+              : "bg-[#131A2E] border-border text-periwinkle-muted hover:text-white"
           }`}
           title={soundOn ? "Sound Enabled" : "Sound Muted"}
         >
@@ -213,7 +216,7 @@ export function DrawRevealExperience({
 
         {/* ANTICIPATION / COUNTDOWN STATE */}
         {revealState === "idle" && (
-          <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 max-w-xl w-full space-y-8 glow-vermillion">
+          <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-border max-w-xl w-full space-y-8 glow-vermillion">
             {!isDrawPublished ? (
               <div className="space-y-6">
                 <div className="text-xs font-semibold text-periwinkle uppercase tracking-wider">
@@ -228,7 +231,7 @@ export function DrawRevealExperience({
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-vermillion to-amber-600 flex items-center justify-center mx-auto shadow-2xl shadow-vermillion/40 animate-pulse">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center mx-auto shadow-2xl shadow-primary/40 animate-pulse">
                   <Play className="w-10 h-10 text-white ml-1" />
                 </div>
 
@@ -241,7 +244,7 @@ export function DrawRevealExperience({
 
                 <button
                   onClick={startReveal}
-                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-vermillion via-vermillion-glow to-amber-500 text-white font-display font-extrabold text-lg shadow-xl shadow-vermillion/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  className="w-full py-4 rounded-2xl bg-gradient-to-r from-primary via-primary-glow to-primary-glow text-white font-display font-extrabold text-lg shadow-xl shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
                 >
                   <Sparkles className="w-5 h-5 text-white" />
                   Reveal Winning Numbers
@@ -273,8 +276,8 @@ export function DrawRevealExperience({
                       isRevealed
                         ? "bg-gradient-to-br from-chartreuse-glow via-chartreuse to-chartreuse-dark text-[#0A0E1C] border-chartreuse shadow-2xl glow-chartreuse animate-ball-bounce"
                         : isSpinning
-                        ? "bg-[#131A2E] text-vermillion border-vermillion/50 animate-pulse glow-vermillion"
-                        : "bg-[#131A2E] text-periwinkle-muted border-white/10"
+                        ? "bg-[#131A2E] text-primary border-vermillion/50 animate-pulse glow-vermillion"
+                        : "bg-[#131A2E] text-periwinkle-muted border-border"
                     }`}
                   >
                     {ballValue}
@@ -336,11 +339,11 @@ export function DrawRevealExperience({
                 {draw.rollover_out_pence > 0 && (
                   <div className="glass-panel-vermillion p-6 rounded-2xl border border-vermillion/40 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-vermillion/20 text-vermillion flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-vermillion/20 text-primary flex items-center justify-center shrink-0">
                         <TrendingUp className="w-5 h-5" />
                       </div>
                       <div className="text-left">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-vermillion">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
                           Unclaimed Jackpot Carryover
                         </span>
                         <h4 className="font-display font-bold text-white text-base">
@@ -348,7 +351,7 @@ export function DrawRevealExperience({
                         </h4>
                       </div>
                     </div>
-                    <span className="text-xs bg-vermillion/20 text-vermillion px-3 py-1 rounded-full font-bold">
+                    <span className="text-xs bg-vermillion/20 text-primary px-3 py-1 rounded-full font-bold">
                       Rollover Active
                     </span>
                   </div>
@@ -360,7 +363,7 @@ export function DrawRevealExperience({
 
         {/* TIER BREAKDOWN PANEL BELOW THE FOLD */}
         {winnersSummary && (
-          <div className="w-full pt-12 border-t border-white/10 space-y-6">
+          <div className="w-full pt-12 border-t border-border space-y-6">
             <h3 className="font-display font-bold text-2xl text-white">Draw Tier Payout Breakdown</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Tier 5 */}
@@ -368,7 +371,7 @@ export function DrawRevealExperience({
                 className={`p-6 rounded-3xl border transition-all ${
                   winnersSummary.tier5.count > 0
                     ? "glass-panel-chartreuse border-chartreuse/40"
-                    : "glass-panel opacity-60 border-white/10"
+                    : "glass-panel opacity-60 border-border"
                 }`}
               >
                 <span className="text-xs font-bold uppercase tracking-wider text-chartreuse">
@@ -389,7 +392,7 @@ export function DrawRevealExperience({
                 className={`p-6 rounded-3xl border transition-all ${
                   winnersSummary.tier4.count > 0
                     ? "glass-panel-chartreuse border-chartreuse/40"
-                    : "glass-panel opacity-60 border-white/10"
+                    : "glass-panel opacity-60 border-border"
                 }`}
               >
                 <span className="text-xs font-bold uppercase tracking-wider text-chartreuse">
@@ -410,7 +413,7 @@ export function DrawRevealExperience({
                 className={`p-6 rounded-3xl border transition-all ${
                   winnersSummary.tier3.count > 0
                     ? "glass-panel-chartreuse border-chartreuse/40"
-                    : "glass-panel opacity-60 border-white/10"
+                    : "glass-panel opacity-60 border-border"
                 }`}
               >
                 <span className="text-xs font-bold uppercase tracking-wider text-chartreuse">

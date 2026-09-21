@@ -50,33 +50,33 @@ export function FlipCountdown({ targetDate, size = "lg" }: FlipCountdownProps) {
     <div className={`flex items-center gap-2 ${isSmall ? "scale-90" : ""}`}>
       {/* Days */}
       <div className="flex flex-col items-center">
-        <div className="flip-tile px-3 py-2 font-display font-extrabold text-vermillion text-xl sm:text-3xl tracking-wider">
+        <div className="flip-tile px-3 py-2 font-display font-extrabold text-primary text-xl sm:text-3xl tracking-wider">
           {pad(timeLeft.days)}
         </div>
         <span className="text-[10px] text-periwinkle-muted uppercase font-bold tracking-wider mt-1">Days</span>
       </div>
 
-      <span className="text-vermillion font-bold text-xl -mt-4">:</span>
+      <span className="text-primary font-bold text-xl -mt-4">:</span>
 
       {/* Hours */}
       <div className="flex flex-col items-center">
-        <div className="flip-tile px-3 py-2 font-display font-extrabold text-vermillion text-xl sm:text-3xl tracking-wider">
+        <div className="flip-tile px-3 py-2 font-display font-extrabold text-primary text-xl sm:text-3xl tracking-wider">
           {pad(timeLeft.hours)}
         </div>
         <span className="text-[10px] text-periwinkle-muted uppercase font-bold tracking-wider mt-1">Hours</span>
       </div>
 
-      <span className="text-vermillion font-bold text-xl -mt-4">:</span>
+      <span className="text-primary font-bold text-xl -mt-4">:</span>
 
       {/* Minutes */}
       <div className="flex flex-col items-center">
-        <div className="flip-tile px-3 py-2 font-display font-extrabold text-vermillion text-xl sm:text-3xl tracking-wider">
+        <div className="flip-tile px-3 py-2 font-display font-extrabold text-primary text-xl sm:text-3xl tracking-wider">
           {pad(timeLeft.minutes)}
         </div>
         <span className="text-[10px] text-periwinkle-muted uppercase font-bold tracking-wider mt-1">Mins</span>
       </div>
 
-      <span className="text-vermillion font-bold text-xl -mt-4">:</span>
+      <span className="text-primary font-bold text-xl -mt-4">:</span>
 
       {/* Seconds */}
       <div className="flex flex-col items-center">

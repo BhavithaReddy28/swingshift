@@ -58,12 +58,12 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-extrabold text-white">Charity Partner Management</h1>
-          <p className="text-gray-400 text-sm mt-1">Create and update partner charities and set featured spotlight causes.</p>
+          <p className="text-muted text-sm mt-1">Create and update partner charities and set featured spotlight causes.</p>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm shadow-lg hover:from-orange-600 hover:to-amber-700 transition-all flex items-center gap-2"
+          className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-white font-semibold text-sm shadow-lg hover:from-primary-glow hover:to-primary transition-all flex items-center gap-2"
         >
           <Plus className="w-4 h-4" /> Add Partner Charity
         </button>
@@ -73,7 +73,7 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
         {charities.map((charity) => (
           <div
             key={charity.id}
-            className="glass-panel rounded-3xl border border-white/10 overflow-hidden space-y-4 hover:border-amber-500/40 transition-all"
+            className="glass-panel rounded-3xl border border-border overflow-hidden space-y-4 hover:border-amber-500/40 transition-all"
           >
             <div className="relative h-40 overflow-hidden">
               <img src={charity.hero_image_url} alt={charity.name} className="w-full h-full object-cover" />
@@ -88,7 +88,7 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
               <div className="flex items-center gap-3">
                 <img src={charity.logo_url} alt="Logo" className="w-10 h-10 rounded-xl object-contain bg-white p-1" />
                 <div>
-                  <span className="text-[10px] uppercase font-bold text-teal-400">{charity.category}</span>
+                  <span className="text-[10px] uppercase font-bold text-support">{charity.category}</span>
                   <h3 className="font-display font-bold text-white text-lg leading-tight">{charity.name}</h3>
                 </div>
               </div>
@@ -102,13 +102,13 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
       {/* Add Charity Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 overflow-y-auto">
-          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 max-w-xl w-full my-8 space-y-4">
+          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-border max-w-xl w-full my-8 space-y-4">
             <h3 className="font-display font-bold text-2xl text-white">Create New Charity Partner</h3>
 
             <form onSubmit={handleCreateCharity} className="space-y-4 text-xs">
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Name</label>
+                  <label className="block text-muted font-semibold mb-1">Name</label>
                   <input
                     type="text"
                     value={name}
@@ -116,17 +116,17 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
                       setName(e.target.value);
                       setSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-"));
                     }}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Slug</label>
+                  <label className="block text-muted font-semibold mb-1">Slug</label>
                   <input
                     type="text"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                     required
                   />
                 </div>
@@ -134,12 +134,12 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Category</label>
+                  <label className="block text-muted font-semibold mb-1">Category</label>
                   <input
                     type="text"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                     required
                   />
                 </div>
@@ -157,45 +157,45 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
               </div>
 
               <div>
-                <label className="block text-gray-400 font-semibold mb-1">Short Description</label>
+                <label className="block text-muted font-semibold mb-1">Short Description</label>
                 <input
                   type="text"
                   value={shortDescription}
                   onChange={(e) => setShortDescription(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                  className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-gray-400 font-semibold mb-1">Long Description</label>
+                <label className="block text-muted font-semibold mb-1">Long Description</label>
                 <textarea
                   rows={3}
                   value={longDescription}
                   onChange={(e) => setLongDescription(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                  className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Logo Image URL</label>
+                  <label className="block text-muted font-semibold mb-1">Logo Image URL</label>
                   <input
                     type="text"
                     value={logoUrl}
                     onChange={(e) => setLogoUrl(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-400 font-semibold mb-1">Hero Image URL</label>
+                  <label className="block text-muted font-semibold mb-1">Hero Image URL</label>
                   <input
                     type="text"
                     value={heroImageUrl}
                     onChange={(e) => setHeroImageUrl(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 text-white"
+                    className="w-full bg-input border border-border rounded-xl p-2.5 text-white"
                     required
                   />
                 </div>
@@ -205,14 +205,14 @@ export function AdminCharitiesClient({ initialCharities }: { initialCharities: C
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 py-2.5 rounded-xl bg-white/5 text-gray-300 font-semibold"
+                  className="flex-1 py-2.5 rounded-xl bg-ink-elevated text-gray-300 font-semibold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="flex-1 py-2.5 rounded-xl bg-orange-500 text-white font-semibold flex items-center justify-center"
+                  className="flex-1 py-2.5 rounded-xl bg-primary text-white font-semibold flex items-center justify-center"
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : "Save Charity"}
                 </button>

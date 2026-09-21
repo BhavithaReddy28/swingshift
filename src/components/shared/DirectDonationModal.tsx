@@ -53,7 +53,7 @@ export function DirectDonationModal({
         onClick={() => setIsOpen(true)}
         className={`${
           fullWidth ? "w-full" : ""
-        } px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-semibold text-sm transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2`}
+        } px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-glow hover:from-primary-glow hover:to-primary text-white font-semibold text-sm transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2`}
       >
         <Heart className="w-4 h-4 fill-white/30" />
         Donate Directly to {charityName}
@@ -61,21 +61,21 @@ export function DirectDonationModal({
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4">
-          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 max-w-md w-full relative">
+          <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-border max-w-md w-full relative">
             <button
               onClick={() => setIsOpen(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-lg"
+              className="absolute top-4 right-4 text-muted hover:text-white p-2 rounded-lg"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-orange-500/20 flex items-center justify-center text-orange-400">
-                <Heart className="w-5 h-5 fill-orange-400/30" />
+              <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-secondary">
+                <Heart className="w-5 h-5 fill-secondary/30" />
               </div>
               <div>
                 <h3 className="font-display font-bold text-xl text-white">Direct Donation</h3>
-                <p className="text-xs text-gray-400">100% goes directly to {charityName}</p>
+                <p className="text-xs text-muted">100% goes directly to {charityName}</p>
               </div>
             </div>
 
@@ -98,8 +98,8 @@ export function DirectDonationModal({
                       onClick={() => setAmountPounds(amt)}
                       className={`py-2 rounded-xl text-sm font-semibold transition-all ${
                         amountPounds === amt
-                          ? "bg-orange-500 text-white shadow-md"
-                          : "bg-white/5 text-gray-300 hover:bg-white/10"
+                          ? "bg-primary text-white shadow-md"
+                          : "bg-ink-elevated text-gray-300 hover:bg-white/10"
                       }`}
                     >
                       £{amt}
@@ -111,7 +111,7 @@ export function DirectDonationModal({
                   min="1"
                   value={amountPounds}
                   onChange={(e) => setAmountPounds(Number(e.target.value))}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                   placeholder="Custom amount"
                   required
                 />
@@ -125,7 +125,7 @@ export function DirectDonationModal({
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                   placeholder="name@example.com"
                   required
                 />
@@ -134,7 +134,7 @@ export function DirectDonationModal({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm hover:from-orange-600 hover:to-amber-700 transition-all flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-white font-semibold text-sm hover:from-primary-glow hover:to-primary transition-all flex items-center justify-center gap-2"
               >
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : `Complete £${amountPounds} Donation`}
               </button>

@@ -34,7 +34,7 @@ export default async function ResultsPage() {
   const draws = await getPublishedDraws();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
       <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12">
@@ -46,17 +46,17 @@ export default async function ResultsPage() {
           <h1 className="font-display text-4xl sm:text-5xl font-extrabold text-white mt-4">
             Published Monthly Results & Winners
           </h1>
-          <p className="mt-4 text-gray-400 text-lg">
+          <p className="mt-4 text-muted text-lg">
             Complete historical record of winning numbers, total prize pools, and tier winner allocations.
           </p>
         </div>
 
         {/* Draws List */}
         {draws.length === 0 ? (
-          <div className="glass-panel p-12 text-center rounded-3xl border border-white/10">
-            <Trophy className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+          <div className="glass-panel p-12 text-center rounded-3xl border border-border">
+            <Trophy className="w-12 h-12 text-muted mx-auto mb-4" />
             <h3 className="text-xl font-bold text-white">No published draws yet</h3>
-            <p className="text-gray-400 text-sm mt-1">The first monthly draw will be published soon!</p>
+            <p className="text-muted text-sm mt-1">The first monthly draw will be published soon!</p>
           </div>
         ) : (
           <div className="space-y-8">
@@ -69,11 +69,11 @@ export default async function ResultsPage() {
               return (
                 <div
                   key={draw.id}
-                  className="glass-panel p-8 rounded-3xl border border-white/10 space-y-6 hover:border-amber-500/40 transition-all"
+                  className="glass-panel p-8 rounded-3xl border border-border space-y-6 hover:border-amber-500/40 transition-all"
                 >
-                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-white/10 pb-6">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border pb-6">
                     <div>
-                      <span className="text-xs font-semibold text-teal-400 uppercase tracking-wider">
+                      <span className="text-xs font-semibold text-support uppercase tracking-wider">
                         Published {draw.published_at ? formatDate(draw.published_at) : ""}
                       </span>
                       <h2 className="font-display text-2xl font-bold text-white mt-1">
@@ -91,7 +91,7 @@ export default async function ResultsPage() {
                       </Link>
 
                       <div className="text-right">
-                        <span className="text-xs text-gray-400 block">Total Pool</span>
+                        <span className="text-xs text-muted block">Total Pool</span>
                         <span className="font-display font-extrabold text-amber-400 text-xl">
                           {formatCurrency(draw.total_pool_pence)}
                         </span>
@@ -101,14 +101,14 @@ export default async function ResultsPage() {
 
                   {/* Winning Balls */}
                   <div>
-                    <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider block mb-3">
+                    <span className="text-xs font-semibold text-muted uppercase tracking-wider block mb-3">
                       Winning Numbers
                     </span>
                     <div className="flex flex-wrap gap-3">
                       {draw.winning_numbers?.map((num: number, idx: number) => (
                         <div
                           key={idx}
-                          className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 font-display font-extrabold text-xl text-white flex items-center justify-center shadow-lg shadow-orange-500/20 border border-amber-300/30"
+                          className="w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 font-display font-extrabold text-xl text-white flex items-center justify-center shadow-lg shadow-primary/20 border border-amber-300/30"
                         >
                           {num}
                         </div>
@@ -134,7 +134,7 @@ export default async function ResultsPage() {
                     </div>
 
                     <div className="p-4 rounded-xl bg-teal-500/10 border border-teal-500/30 space-y-1">
-                      <div className="text-xs font-bold text-teal-400 uppercase tracking-wider">
+                      <div className="text-xs font-bold text-support uppercase tracking-wider">
                         Tier 2 (4 Matches)
                       </div>
                       <div className="text-lg font-bold text-white">
@@ -147,8 +147,8 @@ export default async function ResultsPage() {
                       </div>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-1">
-                      <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                    <div className="p-4 rounded-xl bg-ink-elevated border border-border space-y-1">
+                      <div className="text-xs font-bold text-muted uppercase tracking-wider">
                         Tier 3 (3 Matches)
                       </div>
                       <div className="text-lg font-bold text-white">

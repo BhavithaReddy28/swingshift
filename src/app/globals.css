@@ -3,30 +3,36 @@
 @import "tailwindcss/utilities";
 
 :root {
-  --bg-base: #0A0E1C;           /* deep ink-indigo, near-black but not flat black */
+  --bg-base: #0A0E1C;            /* deep ink-indigo, replaces the navy */
   --bg-elevated: #131A2E;
   --bg-card: #1B2440;
+  --bg-input: #0F1424;            /* form fields — darker than cards, not navy-grey */
 
-  --accent-primary: #FF5A36;     /* vermillion — energetic, CTAs, wins, hot moments */
+  --accent-primary: #FF5A36;      /* vermillion — replaces orange on all CTAs */
   --accent-primary-glow: #FF8A65;
 
-  --accent-secondary: #C4F135;   /* acid chartreuse — winning numbers, reveal glow, rare/high-energy */
+  --accent-secondary: #C4F135;    /* acid chartreuse — winning numbers, key highlights, active nav state */
   --accent-secondary-glow: #DFFF7A;
 
-  --accent-support: #8EA9FF;     /* periwinkle — charity elements, calm/secondary actions */
+  --accent-support: #8EA9FF;      /* periwinkle — replaces teal on section labels, charity elements, links */
 
-  --text-primary: #F4F1EA;       /* warm off-white, not pure white */
+  --text-primary: #F4F1EA;
   --text-muted: #7B85A6;
+
+  --border-subtle: #2A3356;
 
   --gradient-hero: linear-gradient(135deg, #FF5A36 0%, #7A2E3D 45%, #0A0E1C 100%);
   --gradient-win: linear-gradient(135deg, #DFFF7A 0%, #C4F135 55%, #7FA818 100%);
 }
 
 body {
-  background-color: var(--bg-base);
+  background: radial-gradient(circle at 50% 35%, #34356F 0%, #25275A 35%, #171A3A 70%, #171A3A 100%);
+  background-attachment: fixed;
+  background-color: #171A3A;
   color: var(--text-primary);
   font-family: var(--font-inter), sans-serif;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -38,7 +44,7 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(27, 36, 64, 0.65);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(123, 133, 166, 0.15);
+  border: 1px solid var(--border-subtle);
   box-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.45);
 }
 
@@ -77,37 +83,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Ambient Drifting Blobs Background */
-.ambient-blobs {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
 
-.ambient-blob-1 {
-  position: absolute;
-  top: -10%;
-  left: 20%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(255, 90, 54, 0.18) 0%, rgba(122, 46, 61, 0.08) 60%, transparent 100%);
-  border-radius: 50%;
-  filter: blur(80px);
-  animation: float-blob-1 18s ease-in-out infinite alternate;
-}
 
-.ambient-blob-2 {
-  position: absolute;
-  bottom: 10%;
-  right: 15%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(142, 169, 255, 0.15) 0%, rgba(196, 241, 53, 0.06) 60%, transparent 100%);
-  border-radius: 50%;
-  filter: blur(90px);
-  animation: float-blob-2 22s ease-in-out infinite alternate;
-}
 
 @keyframes float-blob-1 {
   0% { transform: translate(0px, 0px) scale(1); }
@@ -123,7 +100,7 @@ h1, h2, h3, h4, h5, h6 {
 .flip-tile {
   perspective: 400px;
   background: var(--bg-elevated);
-  border: 1px solid rgba(123, 133, 166, 0.2);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 4px 12px rgba(0, 0, 0, 0.4);
 }
@@ -145,9 +122,6 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Prefers Reduced Motion override */
 @media (prefers-reduced-motion: reduce) {
-  .ambient-blob-1, .ambient-blob-2 {
-    animation: none !important;
-  }
   * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;

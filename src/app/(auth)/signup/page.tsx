@@ -9,6 +9,9 @@ import { Charity } from "@/lib/supabase/types";
 import { Heart, Loader2, Award, CheckCircle2, ShieldCheck } from "lucide-react";
 import { signupSchema } from "@/lib/zod-schemas";
 import { DEFAULT_CHARITIES } from "@/lib/constants";
+import { MascotIllustration } from "@/components/illustrations/MascotIllustration";
+import { GolfBallIllustration } from "@/components/illustrations/GolfBallIllustration";
+import { TrophyIllustration } from "@/components/illustrations/TrophyIllustration";
 
 export default function SignupPage() {
   const [charities, setCharities] = useState<Charity[]>(DEFAULT_CHARITIES);
@@ -132,17 +135,26 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white relative overflow-hidden">
       <Header />
 
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto w-full">
-        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-white/10 space-y-8 shadow-2xl">
+      {/* Ambient background margin floaters */}
+      <div className="hidden lg:block absolute left-[5%] top-[20%] opacity-40">
+        <GolfBallIllustration size={60} delay={0} />
+      </div>
+      <div className="hidden lg:block absolute right-[10%] top-[30%] opacity-40">
+        <TrophyIllustration size={80} delay={1.5} />
+      </div>
+      <div className="hidden lg:block absolute left-[12%] bottom-[20%] opacity-40">
+        <GolfBallIllustration size={40} delay={3} />
+      </div>
+
+      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-2xl mx-auto w-full relative z-10">
+        <div className="glass-panel p-8 sm:p-12 rounded-3xl border border-border space-y-8 shadow-2xl">
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mx-auto shadow-lg shadow-orange-500/20">
-              <Award className="w-6 h-6 text-white" />
-            </div>
-            <h1 className="font-display text-3xl font-extrabold text-white">Join Digital Heroes</h1>
-            <p className="text-xs text-gray-400">
+            <MascotIllustration className="mx-auto mb-4" size={100} />
+            <h1 className="font-display text-3xl font-extrabold text-white">Join SwingShift</h1>
+            <p className="text-xs text-muted">
               Track scores, enter monthly jackpot draws, and support your designated charity.
             </p>
           </div>
@@ -156,7 +168,7 @@ export default function SignupPage() {
           <form onSubmit={handleSignup} className="space-y-6">
             {/* Account Info */}
             <div className="space-y-4">
-              <h3 className="font-display text-sm font-bold text-teal-400 uppercase tracking-wider">
+              <h3 className="font-display text-sm font-bold text-support uppercase tracking-wider">
                 1. Account Credentials
               </h3>
 
@@ -168,7 +180,7 @@ export default function SignupPage() {
                   type="text"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                   placeholder="John Doe"
                   required
                 />
@@ -183,7 +195,7 @@ export default function SignupPage() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                    className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                     placeholder="john@example.com"
                     required
                   />
@@ -196,7 +208,7 @@ export default function SignupPage() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                    className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                     placeholder="Minimum 6 characters"
                     required
                   />
@@ -205,8 +217,8 @@ export default function SignupPage() {
             </div>
 
             {/* Charity Selection & Percentage Slider */}
-            <div className="space-y-4 pt-4 border-t border-white/10">
-              <h3 className="font-display text-sm font-bold text-teal-400 uppercase tracking-wider">
+            <div className="space-y-4 pt-4 border-t border-border">
+              <h3 className="font-display text-sm font-bold text-support uppercase tracking-wider">
                 2. Charity Designation & Contribution
               </h3>
 
@@ -217,11 +229,11 @@ export default function SignupPage() {
                 <select
                   value={selectedCharityId}
                   onChange={(e) => setSelectedCharityId(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                   required
                 >
                   {charities.map((c) => (
-                    <option key={c.id} value={c.id} className="bg-gray-900 text-white">
+                    <option key={c.id} value={c.id} className="bg-ink-elevated text-white">
                       {c.name} ({c.category})
                     </option>
                   ))}
@@ -233,7 +245,7 @@ export default function SignupPage() {
                   <label className="text-xs font-semibold text-gray-300 uppercase tracking-wider">
                     Charity Share Percentage (Min 10%)
                   </label>
-                  <span className="font-display font-bold text-orange-400 text-base">
+                  <span className="font-display font-bold text-secondary text-base">
                     {charityPercentage}%
                   </span>
                 </div>
@@ -244,9 +256,9 @@ export default function SignupPage() {
                   step="5"
                   value={charityPercentage}
                   onChange={(e) => setCharityPercentage(Number(e.target.value))}
-                  className="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-orange-500"
+                  className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer accent-primary"
                 />
-                <div className="flex justify-between text-[11px] text-gray-400 mt-1">
+                <div className="flex justify-between text-[11px] text-muted mt-1">
                   <span>10% (Minimum)</span>
                   <span>50%</span>
                   <span>100% (Full Philanthropy)</span>
@@ -255,8 +267,8 @@ export default function SignupPage() {
             </div>
 
             {/* Subscription Plan Toggle */}
-            <div className="space-y-4 pt-4 border-t border-white/10">
-              <h3 className="font-display text-sm font-bold text-teal-400 uppercase tracking-wider">
+            <div className="space-y-4 pt-4 border-t border-border">
+              <h3 className="font-display text-sm font-bold text-support uppercase tracking-wider">
                 3. Choose Subscription Plan
               </h3>
 
@@ -266,13 +278,13 @@ export default function SignupPage() {
                   onClick={() => setPlan("monthly")}
                   className={`p-4 rounded-2xl border text-left transition-all ${
                     plan === "monthly"
-                      ? "border-orange-500 bg-orange-500/10 text-white shadow-lg"
-                      : "border-white/10 bg-white/5 text-gray-400 hover:border-white/20"
+                      ? "border-primary bg-primary/10 text-white shadow-lg"
+                      : "border-border bg-ink-elevated text-muted hover:border-white/20"
                   }`}
                 >
                   <div className="font-display font-bold text-lg text-white">Monthly</div>
-                  <div className="text-2xl font-extrabold text-orange-400 mt-1">£20<span className="text-xs text-gray-400">/mo</span></div>
-                  <div className="text-[11px] text-gray-400 mt-2">Billed monthly • Cancel anytime</div>
+                  <div className="text-2xl font-extrabold text-secondary mt-1">£20<span className="text-xs text-muted">/mo</span></div>
+                  <div className="text-[11px] text-muted mt-2">Billed monthly • Cancel anytime</div>
                 </button>
 
                 <button
@@ -281,15 +293,15 @@ export default function SignupPage() {
                   className={`p-4 rounded-2xl border text-left transition-all ${
                     plan === "yearly"
                       ? "border-amber-500 bg-amber-500/10 text-white shadow-lg"
-                      : "border-white/10 bg-white/5 text-gray-400 hover:border-white/20"
+                      : "border-border bg-ink-elevated text-muted hover:border-white/20"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-display font-bold text-lg text-white">Yearly</span>
                     <span className="text-[10px] bg-amber-500/20 text-amber-300 font-bold px-2 py-0.5 rounded">Save 17%</span>
                   </div>
-                  <div className="text-2xl font-extrabold text-amber-300 mt-1">£200<span className="text-xs text-gray-400">/yr</span></div>
-                  <div className="text-[11px] text-gray-400 mt-2">Billed annually • £5/mo prize pool</div>
+                  <div className="text-2xl font-extrabold text-amber-300 mt-1">£200<span className="text-xs text-muted">/yr</span></div>
+                  <div className="text-[11px] text-muted mt-2">Billed annually • £5/mo prize pool</div>
                 </button>
               </div>
             </div>
@@ -297,7 +309,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-display font-bold text-base hover:from-orange-600 hover:to-amber-700 transition-all shadow-xl shadow-orange-500/25 flex items-center justify-center gap-2"
+              className="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-white font-display font-bold text-base hover:from-primary-glow hover:to-primary transition-all shadow-xl shadow-primary/25 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -309,9 +321,9 @@ export default function SignupPage() {
             </button>
           </form>
 
-          <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5">
+          <div className="text-center text-xs text-muted pt-2 border-t border-border">
             Already have an account?{" "}
-            <Link href="/login" className="text-orange-400 font-semibold hover:underline">
+            <Link href="/login" className="text-secondary font-semibold hover:underline">
               Log In
             </Link>
           </div>

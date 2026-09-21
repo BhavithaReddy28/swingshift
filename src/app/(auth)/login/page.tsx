@@ -42,13 +42,13 @@ function LoginForm() {
   };
 
   return (
-    <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 max-w-md w-full space-y-6 shadow-2xl">
+    <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-border max-w-md w-full space-y-6 shadow-2xl">
       <div className="text-center space-y-2">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center mx-auto shadow-lg shadow-orange-500/20">
+        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center mx-auto shadow-lg shadow-primary/20">
           <Heart className="w-6 h-6 text-white fill-white/20" />
         </div>
         <h1 className="font-display text-2xl font-bold text-white">Welcome Back</h1>
-        <p className="text-xs text-gray-400">Log in to manage your scores, numbers, and charity impact.</p>
+        <p className="text-xs text-muted">Log in to manage your scores, numbers, and charity impact.</p>
       </div>
 
       {error && (
@@ -66,7 +66,7 @@ function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+            className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
             placeholder="subscriber@digitalheroes.test"
             required
           />
@@ -79,7 +79,7 @@ function LoginForm() {
             </label>
             <Link
               href="/reset-password"
-              className="text-xs text-orange-400 hover:text-orange-300 transition-colors"
+              className="text-xs text-secondary hover:text-secondary transition-colors"
             >
               Forgot password?
             </Link>
@@ -88,7 +88,7 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+            className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
             placeholder="••••••••"
             required
           />
@@ -97,15 +97,15 @@ function LoginForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg shadow-orange-500/20 flex items-center justify-center gap-2"
+          className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-white font-semibold text-sm hover:from-primary-glow hover:to-primary transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
         >
           {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><LogIn className="w-4 h-4" /> Log In</>}
         </button>
       </form>
 
-      <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5">
+      <div className="text-center text-xs text-muted pt-2 border-t border-border">
         Don&apos;t have an account?{" "}
-        <Link href="/signup" className="text-orange-400 font-semibold hover:underline">
+        <Link href="/signup" className="text-secondary font-semibold hover:underline">
           Subscribe & Join Now
         </Link>
       </div>
@@ -115,11 +115,11 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
       <main className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <Suspense fallback={<div className="text-gray-400 text-sm">Loading login portal...</div>}>
+        <Suspense fallback={<div className="text-muted text-sm">Loading login portal...</div>}>
           <LoginForm />
         </Suspense>
       </main>

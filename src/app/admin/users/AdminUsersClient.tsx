@@ -50,28 +50,28 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-extrabold text-white">User Accounts</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-muted text-sm mt-1">
             Search subscriber database, view profile details, and override subscription statuses.
           </p>
         </div>
 
         <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search by name or role..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-black/40 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            className="w-full bg-input border border-border rounded-xl pl-9 pr-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
           />
         </div>
       </div>
 
-      <div className="glass-panel rounded-3xl border border-white/10 overflow-hidden">
+      <div className="glass-panel rounded-3xl border border-border overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-white/10 text-xs font-bold uppercase tracking-wider text-gray-400 bg-white/5">
+              <tr className="border-b border-border text-xs font-bold uppercase tracking-wider text-muted bg-ink-elevated">
                 <th className="py-4 px-6">User Name & Role</th>
                 <th className="py-4 px-6">Charity Designation</th>
                 <th className="py-4 px-6">Subscription Status</th>
@@ -86,7 +86,7 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
                 const isEditing = editingUserId === user.id;
 
                 return (
-                  <tr key={user.id} className="hover:bg-white/5 transition-colors">
+                  <tr key={user.id} className="hover:bg-ink-elevated transition-colors">
                     <td className="py-4 px-6">
                       <div className="font-bold text-white">{user.full_name}</div>
                       <span className="text-[10px] uppercase tracking-wider text-amber-400 font-semibold">
@@ -96,7 +96,7 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
 
                     <td className="py-4 px-6">
                       <div className="text-gray-200">{charity?.name || "None"}</div>
-                      <span className="text-xs text-teal-400">{user.charity_percentage}% Share</span>
+                      <span className="text-xs text-support">{user.charity_percentage}% Share</span>
                     </td>
 
                     <td className="py-4 px-6">
@@ -124,7 +124,7 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
                         <span
                           className={`px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                             sub?.status === "active"
-                              ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
+                              ? "bg-teal-500/20 text-support border border-teal-500/40"
                               : "bg-red-500/20 text-red-300 border border-red-500/40"
                           }`}
                         >
@@ -142,7 +142,7 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
                             </span>
                           ))
                         ) : (
-                          <span className="text-xs text-gray-500 italic">Auto-Assigned on Draw</span>
+                          <span className="text-xs text-muted italic">Auto-Assigned on Draw</span>
                         )}
                       </div>
                     </td>
@@ -153,7 +153,7 @@ export function AdminUsersClient({ initialProfiles }: { initialProfiles: any[] }
                           setEditingUserId(user.id);
                           setEditStatus(sub?.status || "active");
                         }}
-                        className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                        className="p-2 text-muted hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                         title="Override Subscription Status"
                       >
                         <Edit2 className="w-4 h-4" />

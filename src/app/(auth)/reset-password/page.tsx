@@ -37,17 +37,17 @@ export default function ResetPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
       <main className="flex-1 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-white/10 max-w-md w-full space-y-6 shadow-2xl">
+        <div className="glass-panel p-8 sm:p-10 rounded-3xl border border-border max-w-md w-full space-y-6 shadow-2xl">
           <div className="text-center space-y-2">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 text-secondary flex items-center justify-center mx-auto">
               <KeyRound className="w-6 h-6" />
             </div>
             <h1 className="font-display text-2xl font-bold text-white">Reset Password</h1>
-            <p className="text-xs text-gray-400">Enter your account email to receive a password reset link.</p>
+            <p className="text-xs text-muted">Enter your account email to receive a password reset link.</p>
           </div>
 
           {error && (
@@ -57,7 +57,7 @@ export default function ResetPasswordPage() {
           )}
 
           {message && (
-            <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-500/30 text-teal-400 text-xs">
+            <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-500/30 text-support text-xs">
               {message}
             </div>
           )}
@@ -71,7 +71,7 @@ export default function ResetPasswordPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-orange-500"
+                className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary"
                 placeholder="name@example.com"
                 required
               />
@@ -80,15 +80,15 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white font-semibold text-sm hover:from-orange-600 hover:to-amber-700 transition-all shadow-lg flex items-center justify-center gap-2"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary to-primary-glow text-white font-semibold text-sm hover:from-primary-glow hover:to-primary transition-all shadow-lg flex items-center justify-center gap-2"
             >
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Send Reset Link"}
             </button>
           </form>
 
-          <div className="text-center text-xs text-gray-400 pt-2 border-t border-white/5">
+          <div className="text-center text-xs text-muted pt-2 border-t border-border">
             Remembered your password?{" "}
-            <Link href="/login" className="text-orange-400 font-semibold hover:underline">
+            <Link href="/login" className="text-secondary font-semibold hover:underline">
               Log In
             </Link>
           </div>

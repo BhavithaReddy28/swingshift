@@ -73,7 +73,7 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-extrabold text-white">Winner Verification Queue</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-muted text-sm mt-1">
             Review score proof screenshots, approve winner eligibility, and release payouts.
           </p>
         </div>
@@ -87,7 +87,7 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
               className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all capitalize ${
                 filterStatus === status
                   ? "bg-amber-500 text-white shadow-md"
-                  : "bg-white/5 text-gray-400 hover:text-white"
+                  : "bg-ink-elevated text-muted hover:text-white"
               }`}
             >
               {status.replace("_", " ")}
@@ -98,8 +98,8 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
 
       {/* Winners List Table */}
       {filteredWinners.length === 0 ? (
-        <div className="glass-panel p-12 text-center rounded-3xl border border-white/10">
-          <Award className="w-12 h-12 text-gray-500 mx-auto mb-4" />
+        <div className="glass-panel p-12 text-center rounded-3xl border border-border">
+          <Award className="w-12 h-12 text-muted mx-auto mb-4" />
           <h3 className="text-xl font-bold text-white">No winners match this filter</h3>
         </div>
       ) : (
@@ -112,9 +112,9 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
             return (
               <div
                 key={win.id}
-                className="glass-panel p-6 rounded-3xl border border-white/10 space-y-4 hover:border-amber-500/30 transition-all"
+                className="glass-panel p-6 rounded-3xl border border-border space-y-4 hover:border-amber-500/30 transition-all"
               >
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border pb-4">
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="font-display font-bold text-lg text-white">
@@ -124,7 +124,7 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                         Tier {win.tier} ({win.tier} Matches)
                       </span>
                     </div>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-muted">
                       Draw: {draw?.period_month ? formatDate(draw.period_month) : "Monthly Draw"} | Prize: <strong className="text-amber-400">{formatCurrency(win.prize_amount_pence)}</strong>
                     </span>
                   </div>
@@ -133,12 +133,12 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                         win.verification_status === "approved"
-                          ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
+                          ? "bg-teal-500/20 text-support border border-teal-500/40"
                           : win.verification_status === "pending"
                           ? "bg-amber-500/20 text-amber-300 border border-amber-500/40"
                           : win.verification_status === "rejected"
                           ? "bg-red-500/20 text-red-300 border border-red-500/40"
-                          : "bg-gray-500/20 text-gray-400 border border-gray-500/40"
+                          : "bg-gray-500/20 text-muted border border-gray-500/40"
                       }`}
                     >
                       Verify: {win.verification_status}
@@ -147,8 +147,8 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${
                         win.payment_status === "paid"
-                          ? "bg-teal-500/20 text-teal-300 border border-teal-500/40"
-                          : "bg-gray-500/20 text-gray-400 border border-gray-500/40"
+                          ? "bg-teal-500/20 text-support border border-teal-500/40"
+                          : "bg-gray-500/20 text-muted border border-gray-500/40"
                       }`}
                     >
                       Payout: {win.payment_status}
@@ -159,7 +159,7 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                 {/* Proof Image & Actions */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
                   <div>
-                    <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider block mb-2">
+                    <span className="text-xs text-muted font-semibold uppercase tracking-wider block mb-2">
                       Proof Screenshot File
                     </span>
                     {win.signedProofUrl ? (
@@ -167,12 +167,12 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                         href={win.signedProofUrl}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center gap-2 text-xs font-semibold text-orange-400 hover:text-orange-300 bg-orange-500/10 border border-orange-500/30 px-3.5 py-2 rounded-xl"
+                        className="inline-flex items-center gap-2 text-xs font-semibold text-secondary hover:text-secondary bg-primary/10 border border-primary/30 px-3.5 py-2 rounded-xl"
                       >
                         <ExternalLink className="w-4 h-4" /> View Proof Screenshot
                       </a>
                     ) : (
-                      <span className="text-xs text-gray-500 italic">No proof file uploaded yet</span>
+                      <span className="text-xs text-muted italic">No proof file uploaded yet</span>
                     )}
                   </div>
 
@@ -190,7 +190,7 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                               [win.id]: e.target.value,
                             })
                           }
-                          className="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
+                          className="w-full bg-input border border-border rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-red-500"
                         />
                         <div className="flex gap-2">
                           <button
@@ -218,8 +218,8 @@ export function AdminWinnersClient({ initialWinners }: AdminWinnersClientProps) 
                           disabled={isLoading || win.verification_status !== "approved"}
                           className={`w-full py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-1.5 ${
                             win.verification_status === "approved"
-                              ? "bg-gradient-to-r from-orange-500 to-amber-600 text-white shadow-lg hover:from-orange-600 hover:to-amber-700"
-                              : "bg-gray-800 text-gray-500 cursor-not-allowed border border-gray-700"
+                              ? "bg-gradient-to-r from-primary to-primary-glow text-white shadow-lg hover:from-primary-glow hover:to-primary"
+                              : "bg-ink-elevated text-muted cursor-not-allowed border border-gray-700"
                           }`}
                         >
                           {isLoading ? (

@@ -15,7 +15,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Digital Heroes | Golfing for Impact & Prize Draws",
+  title: "SwingShift | Golfing for Impact & Prize Draws",
   description:
     "Play golf, track rolling scores, win monthly jackpot draws, and empower charities with 10%+ of your subscription.",
 };
@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${outfit.variable} dark`}>
-      <body className="min-h-screen bg-[#0B0F17] text-gray-100 antialiased flex flex-col selection:bg-orange-500/30 selection:text-orange-200">
+      <body className="min-h-screen bg-transparent text-gray-100 antialiased flex flex-col selection:bg-primary/30 selection:text-orange-200">
         {children}
       </body>
     </html>

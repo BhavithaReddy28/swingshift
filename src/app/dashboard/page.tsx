@@ -76,12 +76,12 @@ export default async function DashboardPage() {
 
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0B0F17] text-white">
+    <div className="min-h-screen flex flex-col bg-transparent text-white">
       <Header />
 
       <main className="flex-1 py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         <div className="mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-orange-400 bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/20">
+          <span className="text-xs font-bold uppercase tracking-wider text-secondary bg-primary/10 px-3 py-1 rounded-full border border-primary/20">
             Subscriber Portal
           </span>
           <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-white mt-2">
