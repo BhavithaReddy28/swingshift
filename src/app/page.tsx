@@ -182,7 +182,7 @@ export default async function HomePage() {
 
         {/* FEATURED CHARITY SPOTLIGHT */}
         {data.featuredCharity && (
-          <section className="py-16 bg-[#131A2E] border-y border-border px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-transparent border-y border-border px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
               <div className="text-center mb-12">
                 <span className="text-xs font-bold uppercase tracking-widest text-periwinkle bg-periwinkle/10 px-3.5 py-1.5 rounded-full border border-periwinkle/20">
@@ -293,7 +293,7 @@ export default async function HomePage() {
 
         {/* MOST RECENT DRAW RESULTS */}
         {data.latestDraw && data.latestDraw.winning_numbers && (
-          <section className="py-16 bg-[#131A2E] border-t border-border px-4 sm:px-6 lg:px-8">
+          <section className="py-16 bg-transparent border-t border-border px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               <span className="text-xs font-bold uppercase tracking-widest text-chartreuse bg-chartreuse/10 px-3.5 py-1.5 rounded-full border border-chartreuse/20">
                 Latest Published Draw • {formatMonthPeriod(data.latestDraw.period_month)}
