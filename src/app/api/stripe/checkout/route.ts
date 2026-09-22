@@ -60,8 +60,9 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error("Stripe checkout error:", error);
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const errorMsg = encodeURIComponent(error.message || "Unknown error");
     return NextResponse.json({
-      url: `${siteUrl}/dashboard?checkout=success&demo=true`,
+      url: `${siteUrl}/dashboard?checkout=success&demo=true&stripeError=${errorMsg}`,
       warning: "Demo fallback checkout session used",
     });
   }
