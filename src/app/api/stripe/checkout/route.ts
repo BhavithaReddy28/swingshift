@@ -44,10 +44,10 @@ export async function POST(req: NextRequest) {
           quantity: 1,
         },
       ],
-      client_reference_id: activeUser.id,
-      customer_email: activeUser.email,
+      client_reference_id: activeUser!.id,
+      customer_email: activeUser!.email,
       metadata: {
-        userId: activeUser.id,
+        userId: activeUser!.id,
         plan,
         charityId,
         charityPercentage: charityPercentage.toString(),
